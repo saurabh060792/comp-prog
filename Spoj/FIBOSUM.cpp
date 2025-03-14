@@ -1,77 +1,52 @@
-#include <cstdio>
-#include <cstring>
+#include <iostream>
+#include <vector>
+
+#define M 1000000007
 
 using namespace std;
 
-#define MAX_SIZE 3
-const long long MOD = 1000000007;
-int size = 3;
+typedef long long int lli;
 
-struct Matrix{
-    long long X[MAX_SIZE][MAX_SIZE];
-    
-    Matrix(){}
-    
-    void init(){
-        memset(X,0,sizeof(X));
-        for(int i = 0;i<size;++i) X[i][i] = 1;
+vector<vector<lli>> multiplySquareMatrices(const vector<vector<lli>>& a, const vector<vector<lli>>& b) {
+    int n = a.size();
+    vector<vector<lli>> result(n, vector<lli>(n, 0));
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            for (int k = 0; k < n; k++) {
+                result[i][j] = (result[i][j] + (a[i][k] * b[k][j])%M)%M;
+            }
+        }
     }
-}aux,M0,ans;
-
-void mult(Matrix &m, Matrix &m1, Matrix &m2){
-    memset(m.X,0,sizeof(m.X));
-
-    for(int i = 0;i<size;++i)
-        for(int j = 0;j<size;++j)
-            for(int k = 0;k<size;++k)
-                m.X[i][k] = (m.X[i][k]+m1.X[i][j]*m2.X[j][k])%MOD;
+    return result;
 }
 
-Matrix pow(Matrix &M0, int n){
-	Matrix ret;
-	ret.init();
-	
-	if(n==0) return ret;
-	if(n==1) return M0;
-	
-	Matrix P = M0;
-	
-	while(n!=0){
-	    if(n & 1){
-	        aux = ret;
-	        mult(ret,aux,P);
-	    }
-	    
-	    n >>= 1;
-	    
-	    aux = P;
-	    mult(P,aux,aux);
+vector<vector<lli>> matrixPower(vector<vector<lli>> base, lli exp) {
+    int n = base.size();
+    vector<vector<lli>> result(n, vector<lli>(n, 0));
+    for (int i = 0; i < n; ++i) result[i][i] = 1;
+
+    while (exp > 0) {
+        if (exp % 2 == 1) {
+            result = multiplySquareMatrices(result, base);
+        }
+        base = multiplySquareMatrices(base, base);
+        exp /= 2;
+    }
+    return result;
+}
+
+int main() {
+    // Fibonacci matrix
+    vector<vector<lli>> fibonacciMatrix = {{1, 1}, {1, 0}}, result;
+    lli t, n, m, sumTillM, sumTillN;
+    scanf("%lld", &t);
+    while(t--){
+		scanf("%lld%lld", &n, &m);
+		result = matrixPower(fibonacciMatrix, m+2);
+		sumTillM = result[1][0];
+		result = matrixPower(fibonacciMatrix, n+1);
+		sumTillN = result[1][0];
+		printf("%lld\n", (sumTillM - sumTillN + M)%M);
 	}
-	
-    return ret;
-}
-
-long long sum(int n){
-    if(n<=0) return 0;
-    if(n==1) return 1;
-    
-    ans = pow(M0,n-1);
-    return (ans.X[0][0]+ans.X[0][1])%MOD;
-}
-
-int main(){
-    M0.X[0][0] = 1; M0.X[0][1] = 1; M0.X[0][2] = 1;
-    M0.X[1][0] = 0; M0.X[1][1] = 1; M0.X[1][2] = 1;
-    M0.X[2][0] = 0; M0.X[2][1] = 1; M0.X[2][2] = 0;
-    
-    int T,N,M;
-    
-    scanf("%d",&T);
-    
-    while(T--){
-        scanf("%d %d",&N,&M);
-        printf("%lld\n",((sum(M)-sum(N-1))%MOD+MOD)%MOD);
-    }
-    
     return 0;
 }
