@@ -62,8 +62,10 @@ int main() {
         return 0;
     }
 
+    // Express fn = c^alpha * f1^beta * f2^gamma * f3^delta then:
     // Recurrence for c: cn = cn-1 + cn-2 + cn-3 + 2n - 6
     // Subtract cn-1 from cn to remove the 2n term and then do it again to remove the constant term.
+    
     // Somehow negative numbers in matrix is not working
     // vector<vector<lli>> cMatrix = {{3, -2, 0, -1, 1}, {1, 0, 0, 0, 0}, {0, 1, 0, 0, 0}, {0, 0, 1, 0, 0}, {0, 0, 0, 1, 0}};
     vector<vector<lli>> cMatrix = {{3, M1-2, 0, M1-1, 1}, {1, 0, 0, 0, 0}, {0, 1, 0, 0, 0}, {0, 0, 1, 0, 0}, {0, 0, 0, 1, 0}};
