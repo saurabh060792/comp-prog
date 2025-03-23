@@ -24,8 +24,8 @@ int main() {
                 if(__gcd(n, m) == 1){
                     shortSide = min(m * m - n * n, 2 * m * n);
                     c = m * m + n * n;
-                    int primitiveTripleMultipleForShortSide = (N-1)/shortSide;
-                    int primitiveTripleMultipleForC = M/c;
+                    primitiveTripleMultipleForShortSide = (N-1)/shortSide;
+                    primitiveTripleMultipleForC = M/c;
                     if(primitiveTripleMultipleForShortSide < primitiveTripleMultipleForC)
                         sum += (primitiveTripleMultipleForC - primitiveTripleMultipleForShortSide);
                 }
