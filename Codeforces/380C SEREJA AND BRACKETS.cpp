@@ -18,6 +18,7 @@ segment_tree_node combine(segment_tree_node left_node, segment_tree_node right_n
 int n;
 segment_tree_node tree[MAXTREE];
 
+// https://codeforces.com/blog/entry/18051
 int main() {
     int m, l, r;
     string s;
