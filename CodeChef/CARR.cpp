@@ -48,7 +48,12 @@ int main() {
             printf("%lld\n", n == 1 ? m : (m * m) % M);
             continue;
         }
-        
+
+        // Fix first number like X___..n-numbers..____. Then let cn be the count of number of ways to fill rest of the n numbers.
+        // cn = [2nd number same as X] +  [2nd number different than X] = 1*(M-1)*cn-2 + (M-1)*cn-1
+        // Then our answer would be an = M * cn-1
+        // Simplifying:
+        // an = M(M-1)cn-3 + M(M-1)cn-2 = (M-1)an-2 + (M-1)an-1
         vector<vector<lli>> matrix = {{mminusone, mminusone}, {1, 0}};
         result = matrixPower(matrix, n-2);
         count = (((result[0][0] * ((m * m) % M)) % M) + ((result[0][1] * m) % M))%M;
