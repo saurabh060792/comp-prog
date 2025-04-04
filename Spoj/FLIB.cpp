@@ -41,12 +41,13 @@ int main() {
     lli t, n;
     scanf("%lld", &t);
     while(t--){
-		  scanf("%lld", &n);
-      // Essentially we have to calculate sum(F(4i+3))
-      // F(4i+3) = F(2i+2 + 2i+1) = F(2i+1)^2 + F(2i+2)^2 (By Honsberger's Identity)
-      // Then for summation use this identity sum(F(i)^2) = F(n)F(n+1)$
-  		result = matrixPower(fibonacciMatrix, n<<1);
-  		printf("%lld\n", (result[0][0]*result[1][0])%M);
-	  }
+	scanf("%lld", &n);
+        // Essentially we have to calculate sum{i=0}{n-1}(F(4i+3))
+        // F(4i+3) = F(2i+2 + 2i+1) = F(2i+1)^2 + F(2i+2)^2 (By Honsberger's Identity)
+	// sum{i=0}{n-1}F(4i+3) = sum{i=0}{n-1}(F(2i+1)^2 + F(2i+2)^2) = sum{i}{2n}F(i)
+        // Then for summation use this identity sum(F(i)^2) = F(n)F(n+1)$
+  	result = matrixPower(fibonacciMatrix, n<<1);
+  	printf("%lld\n", (result[0][0]*result[1][0])%M);
+    }
     return 0;
 }
