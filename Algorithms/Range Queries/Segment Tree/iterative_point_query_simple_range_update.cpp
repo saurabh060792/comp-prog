@@ -80,3 +80,20 @@ segment_tree_node combine(segment_tree_node left_node, segment_tree_node right_n
     res.sum = left_node.sum + right_node.sum;
     return res;
 }
+
+// If at some point after modifications we need to inspect all the elements in the array,
+// we can push all the modifications to the leaves using push(n).
+// After that we can just traverse elements starting with index n.
+// This way we reduce the complexity from O(nlog(n)) (ie point querying each index) to O(n)
+// similarly to using build instead of n modifications.
+//
+// NOT TESTED IN ANY ONLINE JUDGE.
+void push(int n) {
+    for (int i = 1; i < n; i++) {
+        tree[i<<1] += tree[i];
+        tree[i<<1|1] += tree[i];
+        tree[i] = 0;
+    }
+}
+
+
