@@ -20,6 +20,16 @@ segment_tree_node tree[MAXTREE];
 lli arr[MAXARRAY];
 bool marked[MAXTREE];  // If true, then this node stores some delayed(lazy) operation.
 
+
+// **Complex** Range Updates and Point Query
+// Complex: This means range update order does matter. That is
+// if Range update is setting a value to a range then order of
+// U1 & U2 does matter. So we have store it in tree and lazily
+// propagate to its children when appropriate.
+//
+// Example
+// Update: Set val to each element in range [l, r]
+// Query: Get element at position pos
 int main() {
     int n, q, l, r, q_type, pos;
     lli v;
