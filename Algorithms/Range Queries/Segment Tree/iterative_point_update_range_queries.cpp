@@ -13,7 +13,7 @@ struct segment_tree_node {
 
 void build_segment_tree(int n);
 segment_tree_node query(int n, int l, int r);
-void modify(int n, int p, lli value);
+void update(int n, int p, lli value);
 segment_tree_node combine(segment_tree_node left_node, segment_tree_node right_node);
 
 segment_tree_node tree[MAXTREE];
@@ -35,7 +35,7 @@ int main() {
         cin>>q_type;
         if (q_type == 1) {
             cin>>pos>>val;
-            modify(n, pos-1, val);
+            update(n, pos-1, val);
         } else {
             cin>>l>>r;
             segment_tree_node res = query(n, l-1, r-1);
@@ -51,7 +51,7 @@ void build_segment_tree(int n) {
 }
 
 // Set value at position p and recalculate all O(log n) tree nodes.
-void modify(int n, int p, lli value) {
+void update(int n, int p, lli value) {
   for (tree[p += n] = {value}; p > 1; p >>= 1) tree[p>>1] = combine(tree[p], tree[p^1]);
 }
 
