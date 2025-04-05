@@ -28,21 +28,9 @@ int main() {
     }
  
     buildST(1, 0, n - 1);
-
-    for (int i = 0; i < m; i++) {
-        cin>>query_type;
-        if (query_type == 1) {
-            cin>>k;
-            int kthZeroIndex = findKthZero(1, 0, n - 1, k);
-            if (kthZeroIndex == -1) cout<<"NO"<<endl;
-            else cout<<kthZeroIndex<<endl;
-        } else {
-            cin>>p>>x;
-            segment_tree_node x_node = {};
-            x_node.zeros = x == 0 ? 1 : 0;
-            updateST(1, 0, n - 1, p, x_node);
-        }
-    }
+    segment_tree_node res = queryST(1, 0, n - 1, l-1, r-1);
+    x_node.zeros = x == 0 ? 1 : 0;
+    updateST(1, 0, n - 1, p, x_node);
  
     return 0;
 }
