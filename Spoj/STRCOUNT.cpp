@@ -22,9 +22,9 @@ int main() {
     //         = f(n-1, k) + f(n-2, k) + 3rd last is zero + 3rd last is one
     //         = so on .... till kth is zero + kth is one
     // f(n, k) = {sum{i=1}{k} f(n-i, k)} + kth last is one
-    // If kth last is one then we already have a longest subarray of 1 of size k.
-    // So the k+1th last must be 0 otherwise we would have longest subarray of 1 of size k.
-    // Then rest of the (n-k-1) positions can have k or k-1 or k-2 ... or 0 size longest subarray of 1
+    // If kth last is one then we already have a longest subarray of 1 of size k in position [n-k, n].
+    // So the k+1th last must be 0 otherwise we would have longest subarray of 1 of size k+1.
+    // Then rest of the (n-k-1) positions from [n-k-1, 1] can have k or k-1 or k-2 ... or 0 size longest subarray of 1
     // f(n, k) = {sum{i=1}{k} f(n-i, k)} + {sum{i=0}{k} f(n-k-1, i)}
     for (int n = 2; n < MAX; n++) {
         for (int k = 1; k < n; k++) {
