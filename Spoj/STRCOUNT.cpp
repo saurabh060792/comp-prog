@@ -20,7 +20,7 @@ int main() {
     // f(n, k) = Last digit is zero + Last digit is one
     //         = f(n-1, k) + 2nd last is zero + 2nd last is one
     //         = f(n-1, k) + f(n-2, k) + 3rd last is zero + 3rd last is one
-    //         = so on till kth zero
+    //         = so on .... till kth is zero + kth is one
     // f(n, k) = {sum{i=1}{k} f(n-i, k)} + kth last is one
     // If kth last is one then we already have a longest subarray of 1 of size k.
     // So the k+1th last must be 0 otherwise we would have longest subarray of 1 of size k.
