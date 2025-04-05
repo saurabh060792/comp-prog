@@ -11,17 +11,16 @@ struct segment_tree_node {
     lli match, extra_open, extra_close;
 };
 
-void build_segment_tree();
-segment_tree_node query(int l, int r);
+void build(int n);
+segment_tree_node query(int n, int l, int r);
 segment_tree_node combine(segment_tree_node left_node, segment_tree_node right_node);
 
-int n;
 segment_tree_node tree[MAXTREE];
 
 // https://codeforces.com/blog/entry/18051
 // Solution to 380C SEREJA AND BRACKETS (https://codeforces.com/problemset/problem/380/C)
 int main() {
-    int m, l, r;
+    int n, m, l, r;
     string s;
     cin>>s;
     n = s.size();
@@ -36,24 +35,24 @@ int main() {
         }
     }
 
-    build_segment_tree();
+    build(n);
 
     cin>>m;
     for (int i = 0; i < m; i++) {
         cin>>l>>r;
-        segment_tree_node res = query(l-1, r-1);
+        segment_tree_node res = query(n, l-1, r-1);
         cout<<2 * res.match<<endl;
     }
 
     return 0;
 }
 
-void build_segment_tree() {
+void build(int n) {
     for (int i = n - 1; i > 0; i--) tree[i] = combine(tree[i<<1],  tree[i<<1|1]);
 }
 
 // Query on interval [l, r]
-segment_tree_node query(int l, int r) {
+segment_tree_node query(int n, int l, int r) {
     segment_tree_node resl = {0, 0, 0}, resr = {0, 0, 0};
     // r starts at n+1 to make the interval inclusive. If
     // r starts from n then interval will be [l, r).

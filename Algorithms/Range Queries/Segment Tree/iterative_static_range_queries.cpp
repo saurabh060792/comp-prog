@@ -11,7 +11,7 @@ struct segment_tree_node {
     lli sum;
 };
 
-void build_segment_tree(int n);
+void build(int n);
 segment_tree_node query(int n, int l, int r);
 segment_tree_node combine(segment_tree_node left_node, segment_tree_node right_node);
 
@@ -25,7 +25,7 @@ int main() {
     // Initialize tree with array elements in Iterative Segment Tree.
     for (int i = 0; i < n; i++) cin>>tree[n + i].sum;
 
-    build_segment_tree(n);
+    build(n);
 
     for (int i = 0; i < q; i++) {
         cin>>l>>r;
@@ -36,7 +36,7 @@ int main() {
     return 0;
 }
 
-void build_segment_tree(int n) {
+void build(int n) {
     for (int i = n - 1; i > 0; i--) tree[i] = combine(tree[i<<1],  tree[i<<1|1]);
 }
 

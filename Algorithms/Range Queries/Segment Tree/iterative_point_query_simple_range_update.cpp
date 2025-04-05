@@ -11,7 +11,7 @@ struct segment_tree_node {
     lli sum;
 };
 
-void build_segment_tree(int n);
+void build(int n);
 segment_tree_node query(int n, int p);
 void update(int n, int l, int r, lli value);
 segment_tree_node combine(segment_tree_node left_node, segment_tree_node right_node);
@@ -40,7 +40,7 @@ int main() {
     // will store temporary values which may get propaged to leaf
     // at the time of query.
 
-    // build_segment_tree(n);
+    // build(n);
 
     for (int i = 0; i < q; i++) {
         cin>>q_type;
@@ -57,7 +57,7 @@ int main() {
     return 0;
 }
 
-void build_segment_tree(int n) {
+void build(int n) {
     for (int i = n - 1; i > 0; i--) tree[i] = combine(tree[i<<1],  tree[i<<1|1]);
 }
 

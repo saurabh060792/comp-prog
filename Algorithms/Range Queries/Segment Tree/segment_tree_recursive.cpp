@@ -12,9 +12,9 @@ struct segment_tree_node {
 };
 
 segment_tree_node combine(segment_tree_node left_node, segment_tree_node right_node);
-void buildST(int node, int tl, int tr);
-segment_tree_node queryST(int node, int tl, int tr, int l, int r);
-void updateST(int node, int tl, int tr, int position, segment_tree_node value);
+void build(int node, int tl, int tr);
+segment_tree_node query(int node, int tl, int tr, int l, int r);
+void update(int node, int tl, int tr, int position, segment_tree_node value);
 
 int n;
 segment_tree_node tree[MAXTREE], arr[MAXARRAY];
@@ -27,10 +27,10 @@ int main() {
         if (temp == 0) arr[i].zeros = 1;
     }
  
-    buildST(1, 0, n - 1);
-    segment_tree_node res = queryST(1, 0, n - 1, l-1, r-1);
+    build(1, 0, n - 1);
+    segment_tree_node res = query(1, 0, n - 1, l-1, r-1);
     x_node.zeros = x == 0 ? 1 : 0;
-    updateST(1, 0, n - 1, p, x_node);
+    update(1, 0, n - 1, p, x_node);
  
     return 0;
 }
@@ -42,7 +42,7 @@ segment_tree_node combine(segment_tree_node left_node, segment_tree_node right_n
 }
 
 // Call with node = 1, tl = 0, tr = n - 1
-void buildST(int node, int tl, int tr) {
+void build(int node, int tl, int tr) {
     if(tl == tr) {
         tree[node] = arr[tl];
         return;
@@ -56,23 +56,23 @@ void buildST(int node, int tl, int tr) {
 
 // Call with node = 1 as segment tree array starts with 1.
 // Query in interval [l, r] inclusive.
-segment_tree_node queryST(int node, int tl, int tr, int l, int r) {
+segment_tree_node query(int node, int tl, int tr, int l, int r) {
     if(l > tr || r < tl) return segment_tree_node();
     if(l <= tl && r >= tr) return tree[node];
     int tm = (tl + tr)>>1, left_node = node<<1, right_node = node<<1|1;
     segment_tree_node resl, resr;
-    resl = queryST(left_node, tl, tm, l, r);
-    resr = queryST(right_node, tm + 1, tr, l, r);
+    resl = query(left_node, tl, tm, l, r);
+    resr = query(right_node, tm + 1, tr, l, r);
     return combine(resl, resr);
 }
 
-void updateST(int node, int tl, int tr, int position, segment_tree_node value) {
+void update(int node, int tl, int tr, int position, segment_tree_node value) {
     if(tl == tr) {
         tree[node] = value;
         return;
     }
     int tm = (tl + tr)>>1, left_node = node<<1, right_node = node<<1|1;
-    if(position <= tm) updateST(left_node, tl, tm, position, value);
-    else updateST(right_node, tm + 1, tr, position, value);
+    if(position <= tm) update(left_node, tl, tm, position, value);
+    else update(right_node, tm + 1, tr, position, value);
     tree[node] = combine(tree[left_node], tree[right_node]);
 }
