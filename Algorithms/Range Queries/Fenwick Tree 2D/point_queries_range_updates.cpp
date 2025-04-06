@@ -15,6 +15,7 @@ void update(int r1, int c1, int r2, int c2, lli delta);
 lli query(int x, int y);
 
 map<pair<pair<int,int>, pair<int,int> >, lli> assigned_value;
+// 1-Based BIT
 lli bit[MAX][MAX];
 
 // https://codeforces.com/contest/869/problem/E
@@ -43,7 +44,8 @@ int main() {
     return 0;
 }
 
-// Update the sub matrix with corners (r1, c1) and (r2, c2).
+// Update the sub matrix with corners [r1, c1] and [r2, c2].
+// 1-Based BIT
 void update(int r1, int c1, int r2, int c2, lli delta) {
     update(r1, c1, delta);
     update(r1, c2 + 1, -delta);
