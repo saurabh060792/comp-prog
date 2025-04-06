@@ -11,6 +11,7 @@ using namespace std;
 typedef long long int lli;
 
 void update(int x, int y, lli delta);
+void update(int r1, int c1, int r2, int c2, lli delta);
 lli query(int x, int y);
 
 map<pair<pair<int,int>, pair<int,int> >, lli> assigned_value;
@@ -27,17 +28,11 @@ int main() {
         if (q_type == 1) {
             delta = uniform_int_distribution<lli>(1, INF)(rng);
             assigned_value[{{r1, c1}, {r2, c2}}] = delta;
-            update(r1, c1, delta);
-            update(r1, c2 + 1, -delta);
-            update(r2 + 1, c1, -delta);
-            update(r2 + 1, c2 + 1, delta);
+            update(r1, c1, r2, c2, delta);
         } else if (q_type == 2) {
             delta = assigned_value[{{r1, c1}, {r2, c2}}];
             assigned_value[{{r1, c1}, {r2, c2}}] = 0;
-            update(r1, c1, -delta);
-            update(r1, c2 + 1, delta);
-            update(r2 + 1, c1, delta);
-            update(r2 + 1, c2 + 1, -delta);
+            update(r1, c1, r2, c2, -delta);
         } else {
             lli res1 = query(r1, c1);
             lli res2 = query(r2,c2);
@@ -48,9 +43,17 @@ int main() {
     return 0;
 }
 
+// Update the sub matrix with corners (r1, c1) and (r2, c2).
+void update(int r1, int c1, int r2, int c2, lli delta) {
+    update(r1, c1, delta);
+    update(r1, c2 + 1, -delta);
+    update(r2 + 1, c1, -delta);
+    update(r2 + 1, c2 + 1, delta);
+}
+
 void update(int x, int y, lli delta) {
     for (int i = x; i <= MAX; i += i&(-i))
-        for (int j = y;j <= MAX; j += j&(-j))
+        for (int j = y; j <= MAX; j += j&(-j))
             bit[i][j] += delta;
 }
 
