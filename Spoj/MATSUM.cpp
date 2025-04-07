@@ -1,52 +1,60 @@
-#include <cstdio>
+#include <iostream>
+#include <cstring>
 
-int tree[1024][1024], mat[1024][1024], N;
+#define MAX 1050
 
-int sum(int x, int y);
-void add(int x, int y, int value);
+using namespace std;
 
-int main()
-{
-	int T,i, x, y, num, x1, y1, x2, y2, res;
-	char cmd[10];
-	scanf("%d", &T);
+typedef long long int lli;
 
-	while(T--) {
-		scanf("%d", &N);
-		for(i = 0; i < N; i++)
-			for (int j = 0; j < N; j++)
-				tree[i][j] = mat[i][j] = 0;
+void update(int x, int y, lli delta);
+lli query(int x1, int y1, int x2, int y2);
+lli query(int x, int y);
 
-		while(scanf(" %s", cmd) == 1 && cmd[0] != 'E') {
-			if (cmd[1] == 'E') {
-				scanf("%d %d %d", &x, &y, &num);
-				if(mat[x][y] != num) {
-					add(x, y, num-mat[x][y]);
-					mat[x][y] = num;
-				}
-			}
-			else {
-				scanf("%d %d %d %d", &x1, &y1, &x2, &y2);
-				res = sum(x2, y2) - sum(x1-1, y2) - sum(x2, y1-1) + sum(x1-1, y1-1);
-				printf("%d\n", res);
-			}
-		}
-	}
+lli bit[MAX][MAX], mat[MAX][MAX];
+
+int main() {
+    int t, n, x1, y1, x2, y2;
+    lli num;
+    char cmd[10];
+    string q_type;
+    scanf("%d", &t);
+    // cin>>t;
+    while(t--) {
+        scanf("%d", &n);
+        memset(bit, 0, sizeof(bit));
+        memset(mat, 0, sizeof(mat));
+        while(1) {
+            scanf(" %s", cmd);
+            if (cmd[1] == 'E') {
+                scanf("%d%d%lld", &x1, &y1, &num);
+                x1++, y1++;
+                update(x1, y1, num - mat[x1][y1]);
+                mat[x1][y1]  = num;
+            } else if (cmd[1] == 'U') {
+                scanf("%d%d%d%d", &x1, &y1, &x2, &y2);
+                x1++, y1++, x2++, y2++;
+                printf("%lld\n", query(x1, y1, x2, y2));
+            } else break;
+        }
+    }
+    return 0;
 }
 
-void add(int x, int y, int value)
-{
-    int i,j;
-	for(i = x; i < N; i |= i + 1)
-		for(j = y; j < N; j |= j + 1)
-			tree[i][j] += value;
+void update(int x, int y, lli delta) {
+    for (int i = x; i <= MAX; i += i&(-i))
+        for (int j = y;j <= MAX; j += j&(-j))
+            bit[i][j] += delta;
 }
 
-int sum(int x, int y)
-{
-	int res = 0,i,j;
-	for(i = x; i >= 0; i = (i & (i + 1)) - 1)
-		for(j = y; j >= 0; j = (j & (j + 1)) - 1)
-			res += tree[i][j];
-	return res;
+lli query(int x1, int y1, int x2, int y2) {
+    return query(x1 - 1, y1 - 1) - query(x1 - 1, y2) - query(x2, y1 - 1) + query(x2, y2);
+}
+
+lli query(int x, int y) {
+    lli res = 0;
+    for (int i = x; i > 0 ; i -= i&(-i))
+        for (int j = y; j > 0 ; j -= j&(-j))
+            res += bit[i][j];
+    return res;
 }
