@@ -51,6 +51,12 @@ void build(int n) {
     for (int i = n - 1; i > 0; i--) tree[i] = combine(tree[i<<1],  tree[i<<1|1]);
 }
 
+// Set value at position p and recalculate all O(log n) tree nodes.
+void update(int n, int p, lli value) {
+    for (tree[p += n] = {value, value, value}; p >>= 1;)
+        tree[p] = combine(tree[p<<1], tree[p<<1|1]);
+}
+
 // Query on interval [l, r]
 segment_tree_node query(int n, int l, int r) {
     segment_tree_node resl = {0, 0, 0}, resr = {0, 0, 0};
