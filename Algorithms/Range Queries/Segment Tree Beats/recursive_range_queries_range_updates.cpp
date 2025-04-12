@@ -67,10 +67,15 @@ void build(int node, int tl, int tr) {
 }
 
 void update_mod_equal(int node, int tl, int tr, int l, int r, int mod) {
+    // This break condition is enough to achieve low time complexity.
     if (l > r || tree[node].maximum < mod) return;
+    
     // In Segment tree beats, update can some time go the leaf
     // node instead of normal node in case of normal segment tree
     // update.
+    //
+    // Tag Condition is just the same as normal segemnt tree since
+    // Break Condition is enough to achieve low time complexity.
     if (tl == tr) {
         tree[node].maximum %= mod;
         tree[node].sum = tree[node].maximum;
