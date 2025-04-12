@@ -78,7 +78,14 @@ segment_tree_node query(int node, int tl, int tr, int p) {
 }
 
 void update(int node, int tl, int tr, int l, int r, segment_tree_node value) {
+    // This case denotes that query interval [l, r] doesn't intersects with
+    // tree interval [tl, tr]. We can notice this by thinking when this case
+    // will be true for each of the 2 update calls in line 92 and 93.
     if (l > r) return;
+
+    // This case denotes that query interval [l, r] fully intersects with
+    // tree interval [tl, tr]. Again think when this case will be true for
+    // each of the 2 update call below.
     if(l == tl && tr == r) {
         tree[node] = value;
         marked[node] = true;
