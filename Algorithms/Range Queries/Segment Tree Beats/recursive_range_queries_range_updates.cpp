@@ -12,8 +12,8 @@ struct segment_tree_node {
 };
 
 void build(int node, int tl, int tr);
-void updateModEqual(int node, int tl, int tr, int l, int r, int mod);
-void updateEqual(int node, int tl, int tr, int pos, lli val);
+void update_mod_equal(int node, int tl, int tr, int l, int r, int mod);
+void update_equal(int node, int tl, int tr, int pos, lli val);
 lli query(int node, int tl, int tr, int l, int r);
 
 segment_tree_node tree[MAXTREE];
@@ -43,11 +43,11 @@ int main() {
             cin>>l>>r>>x;
             l--;
             r--;
-            updateModEqual(1, 0, n - 1, l, r, x);
+            update_mod_equal(1, 0, n - 1, l, r, x);
         } else {
             cin>>k>>x;
             k--;
-            updateEqual(1, 0, n - 1, k, x);
+            update_equal(1, 0, n - 1, k, x);
         }
     }
     return 0;
@@ -66,7 +66,7 @@ void build(int node, int tl, int tr) {
     tree[node].maximum = max(tree[left_node].maximum, tree[right_node].maximum);
 }
 
-void updateModEqual(int node, int tl, int tr, int l, int r, int mod) {
+void update_mod_equal(int node, int tl, int tr, int l, int r, int mod) {
     if (l > r || tree[node].maximum < mod) return;
     // In Segment tree beats, update can some time go the leaf
     // node instead of normal node in case of normal segment tree
@@ -78,20 +78,20 @@ void updateModEqual(int node, int tl, int tr, int l, int r, int mod) {
     }
     int mid = (r + l) / 2;
     int tm = (tl + tr)>>1, left_node = node<<1, right_node = node<<1|1;
-    updateModEqual(left_node, tl, tm, l, min(r, tm), mod);
-    updateModEqual(right_node, tm + 1, tr, max(l, tm + 1), r, mod);
+    update_mod_equal(left_node, tl, tm, l, min(r, tm), mod);
+    update_mod_equal(right_node, tm + 1, tr, max(l, tm + 1), r, mod);
     tree[node].sum = tree[left_node].sum + tree[right_node].sum;
     tree[node].maximum = max(tree[left_node].maximum, tree[right_node].maximum);
 }
 
-void updateEqual(int node, int tl, int tr, int pos, lli val) {
+void update_equal(int node, int tl, int tr, int pos, lli val) {
     if (tl == tr) {
         tree[node].maximum = tree[node].sum = val;
         return;
     }
     int tm = (tl + tr)>>1, left_node = node<<1, right_node = node<<1|1;
-    if (pos <= tm) updateEqual(left_node, tl, tm, pos, val);
-    else updateEqual(right_node, tm + 1, tr, pos, val);
+    if (pos <= tm) update_equal(left_node, tl, tm, pos, val);
+    else update_equal(right_node, tm + 1, tr, pos, val);
     tree[node].sum = tree[left_node].sum + tree[right_node].sum;
     tree[node].maximum = max(tree[left_node].maximum, tree[right_node].maximum);
 
