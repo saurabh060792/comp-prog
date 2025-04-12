@@ -2,9 +2,15 @@
 
 [Video](https://youtu.be/NwkO73jGSPA?si=7biJi9WYqQchKO7Y)
 
+Basic idea is if we take modulo, square root operation in a range, then the array element decrease by at least half.
+And with strong break condition e.g. max > 1 in case of square root range update or max > modulo in case of range modulo
+we can achieve O(nlogn * log(a_max)) time complexity where a_max = max(arr).
+
 Implemented Examples
 1. Range Update: %=  
    Point Update: :=  
    Range Query: +  
    [Question](https://codeforces.com/group/1rv4rhCsHp/contest/327313/problem/A)
-2. 
+2. Range Update: square root
+   Range Query: +
+   [Question](https://www.spoj.com/problems/GSS4/)
