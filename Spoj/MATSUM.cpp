@@ -19,7 +19,6 @@ int main() {
     char cmd[10];
     string q_type;
     scanf("%d", &t);
-    // cin>>t;
     while(t--) {
         scanf("%d", &n);
         memset(bit, 0, sizeof(bit));
