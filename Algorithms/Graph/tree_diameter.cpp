@@ -9,7 +9,7 @@
 #define UNEXPLORED 0
 #define EXPLORING 1
 #define EXPLORED 2
-#define MAX 200010
+#define MAX 300010
 
 using namespace std;
 
@@ -19,18 +19,17 @@ struct vertex {
     lli status, depth;
 };
 
-lli dfs(lli start, vertex *V);
-void dfs_tree_from_diameter_endpoint();
+pair<lli, lli> dfs(lli start, vertex *V);
+lli dfs_tree_from_diameter_endpoint();
 
 vector<lli> adjacency_graph[MAX];
 vertex Vs[MAX], Vt[MAX], Vr[MAX];
 lli n;
+bool is_diameter_vertex[MAX];
 
-// https://cses.fi/problemset/task/1132
 int main() {
-    lli u, v;
+    lli u, v, dia_length = 0;
     scanf("%lld", &n);
-    for (int i = 0; i < n; i++) adjacency_graph[i].clear();
     for (int i = 0; i < n - 1; i++) {
         scanf("%lld%lld", &u, &v);
         u--;
@@ -38,13 +37,28 @@ int main() {
         adjacency_graph[u].push_back(v);
         adjacency_graph[v].push_back(u);
     }
-    dfs_tree_from_diameter_endpoint();
-    for (int i = 0; i < n; i++) printf("%lld ", max(Vt[i].depth, Vr[i].depth));
-    printf("\n");
+    dia_length = dfs_tree_from_diameter_endpoint();
+    // We have to check depth == diameter length for 2 diameterically opposite vertex (t, r)
+    // because from t we will get all the diameter vertex that are on the other side of the
+    // center (ie on r side). And from r we will all the diameter vertex that on the t's side
+    // of the center.
+    //
+    // If we just check depth == diameter length from one diameter vertex (lets say t). Then
+    // we will miss all diameter nodes on t's side. For example:
+    //
+    //    1---3---6---5---4
+    //                |
+    //                |
+    //                2
+    // Here if t = 4 and we just check depth == diameter length from t then we will miss the
+    // vertex 2 which is a diameter vertex
+    for (int i = 0; i < n; i++) is_diameter_vertex[i] |= (Vt[i].depth == dia_length);
+    for (int i = 0; i < n; i++) is_diameter_vertex[i] |= (Vr[i].depth == dia_length);
+    for (int i = 0; i < n; i++) printf("%lld\n", is_diameter_vertex[i] ? dia_length + 1 : dia_length);
     return 0;
 }
 
-lli dfs(lli start, vertex *V) {
+pair<lli, lli> dfs(lli start, vertex *V) {
     lli u, max_depth = 0, max_depth_vertex = start;
     stack<int> S;
     memset(V, 0, sizeof(V));
@@ -68,17 +82,13 @@ lli dfs(lli start, vertex *V) {
         }
         V[u].status = EXPLORED;
     }
-    return max_depth_vertex;
+    return {max_depth_vertex, max_depth};
 }
 
-void dfs_tree_from_diameter_endpoint() {
-    lli t, r;
-    // Tree Diameter Algorithm
-    // 1. Select a randomo vertex s (eg 0)
-    // 2. Find furthest vertex from s, lets say t
-    // 3. Find furthest vertex from t, lets say r
-    // 4. (t, r) is a diameter.
+lli dfs_tree_from_diameter_endpoint() {
+    pair<lli, lli> t, r;
     t = dfs(0, Vs);
-    r = dfs(t, Vt);
-    dfs(r, Vr);
+    r = dfs(t.first, Vt);
+    dfs(r.first, Vr);
+    return r.second;
 }
