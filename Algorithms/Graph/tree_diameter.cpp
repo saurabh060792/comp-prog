@@ -27,6 +27,7 @@ vertex Vs[MAX], Vt[MAX], Vr[MAX];
 lli n;
 bool is_diameter_vertex[MAX];
 
+// https://codeforces.com/gym/102694/problem/B
 int main() {
     lli u, v, dia_length = 0;
     scanf("%lld", &n);
