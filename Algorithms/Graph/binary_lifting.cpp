@@ -39,7 +39,7 @@ int log2_floor(int i) {
 
 void buildAncestorTable(int *a, int n) {
     lli k = log2_floor(n);
-    for (int i = 2; i <= n; i++) ancestor[0][i] = a[i];
+    for (int i = 2; i <= n; i++) ancestor[0][i] = a[i];  // 1 based indexing
     for (int i = 1; i <= k; i++)
         for (int j = 2; j <= n; j++)
             ancestor[i][j] = ancestor[i - 1][ancestor[i - 1][j]];
