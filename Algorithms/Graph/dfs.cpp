@@ -12,7 +12,7 @@ using namespace std;
 
 typedef struct vertex
 {
-	int status,parent;									//parent in dfs tree
+	int status,parent;
 }vertex;
 
 void dfs(vector<vector<int> > graph);
@@ -22,23 +22,14 @@ void dfsStack(vector<vector<int> > graph);
 int main()
 {
 	int n,i,u,v,e;
-	cin>>n>>e;											//vertices
+	cin>>n>>e;
 	vector<vector<int> > graph(n);
 	vector<int>::iterator it;
 	for(i=0;i<e;i++) {
-		cin>>u>>v;                               		//edges of undirected graph
+		cin>>u>>v;
 		graph[u].push_back(v);
 		graph[v].push_back(u);
 	}
-
-	// Printing the input
-	// cout<<"here"<<endl;
-	// for(i=0;i<n;i++) {
-	// 	for(it = graph[i].begin(); it != graph[i].end(); it++)
-	// 		cout<<*it<<"  ";
-	// 	cout<<endl;
-	// }
-
 	dfs(graph);
 	dfsStack(graph);
 	return 0;
@@ -52,7 +43,7 @@ void dfsStack(vector<vector<int> > graph)
 	stack<int> S;
 	for(i=0;i<n;i++) V[i].status = UNEXPLORED;
 	for(i=0;i<n;i++) {
-		if(V[i].status == UNEXPLORED) {					//taking care of disconnected components
+		if(V[i].status == UNEXPLORED) {
 			V[i].parent = -1;
 			V[i].status = EXPLORING;
 			S.push(i);
@@ -70,8 +61,6 @@ void dfsStack(vector<vector<int> > graph)
 			}
 		}
 	}
-	// for(i=0;i<n;i++)
-	// 	cout<<i<<": Parent: "<<V[i].parent<<endl;
 	return;
 }
 
