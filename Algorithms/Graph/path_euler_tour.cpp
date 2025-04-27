@@ -61,6 +61,25 @@ int main() {
     }
 }
 
+// Increment the counter when we go down in tree and when going up. Eg
+// Node = (Start time, End time)
+//     (1, 14)
+//     /     \
+//  (2, 3)   (4, 13)
+//              \
+//             (5, 12)
+//             /   \
+//         (6, 7)  (8, 11)
+//                   \
+//                  (9, 10)
+// Properties:
+// 1. All vertices have 2 places in the array.
+// 2. Array will contain +val at start time index and -val at end time index.
+//    In this way we can do some path queries so unwanted paths cancel out. Only
+//    valid for operation that have a negative eg sum, multiply but not min, max.
+//
+// This trick only works when endpoints of path have ancestor, descendant relation.
+// Can be overcome by finding LCA and dividing the path in 2.
 int dfs(int u, int time) {
     V[u].status = EXPLORING;
     V[u].start_time = time;
