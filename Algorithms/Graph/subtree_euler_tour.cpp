@@ -56,6 +56,20 @@ int main() {
     }
 }
 
+// Increment the counter when we go down in tree but not when going up. Eg
+// Node = (Start time, End time)
+//     (1, 7)
+//     /     \
+//  (2, 2)   (3, 7)
+//              \
+//             (4, 7)
+//             /   \
+//         (5, 5)  (6, 7)
+//                   \
+//                  (7, 7)
+// Properties:
+// 1. All start times are unique so we can order them by start time.
+// 2. When ordering by start time, a subtree will form a continuous segment.
 int dfs(int u, int time) {
     V[u].status = EXPLORING;
     V[u].start_time = time;
