@@ -85,10 +85,10 @@ void dfs(int u, int p, int time) {
             // Here we are looping over children of u and picking lowest_entry_time
             // of the highest ancestor that can be reached by any children.
             lowest_entry_time[u] = min(lowest_entry_time[u], lowest_entry_time[v]);
-            // If highest ancestor we go with v (denoted by lowest_entry_time[v]) is
-            // still short of, when we first enter u then we have found a bridge.
+            // If highest ancestor that we can go with v (denoted by lowest_entry_time[v])
+            // is still short of, when we first enter u then we have found a bridge.
             // In other words, u is higher up in DFS tree than the highest we can reach
-            // with v.
+            // with v or its decendants.
             //
             // NOTE that if lowest_entry_time[v] <= entry_time[u], then v or any of its
             // children can exactly reach u or can even go higher than u using back edge.
