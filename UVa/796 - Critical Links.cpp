@@ -9,7 +9,7 @@
 using namespace std;
 
 void bridge(int u, int v);
-void dfs(int u, int p, int time);
+int dfs(int u, int p, int time);
 void find_bridges();
 
 int n;
@@ -42,7 +42,7 @@ int main() {
     return 0;
 }
 
-void dfs(int u, int p, int time) {
+int dfs(int u, int p, int time) {
     visited[u] = true;
     entry_time[u] = time;
 
@@ -81,7 +81,7 @@ void dfs(int u, int p, int time) {
         if (visited[v]) lowest_entry_time[u] = min(lowest_entry_time[u], entry_time[v]);
         // Tree edge
         else {
-            dfs(v, u, time + 1);
+            time = dfs(v, u, time + 1);
             // Here we are looping over children of u and picking lowest_entry_time
             // of the highest ancestor that can be reached by any children.
             lowest_entry_time[u] = min(lowest_entry_time[u], lowest_entry_time[v]);
@@ -97,6 +97,7 @@ void dfs(int u, int p, int time) {
             if (lowest_entry_time[v] > entry_time[u]) bridge(u, v);
         }
     }
+    return time;
 }
 
 void find_bridges() {
