@@ -76,8 +76,8 @@ void dfs(int u, int p, int time) {
         if (v == p) continue;
         // Back edge: It can never be a bridge as existence of back edge denotes a cycle
         // with one of its edge (u, v). So here we are just looping over all the back edges
-        // to v and picking up the highest ancestor v (ie with the lowest entry_time) to
-        // u has a back edge.
+        // to v and picking up the highest ancestor v (ie with the lowest entry_time) for
+        // which u has a back edge.
         if (visited[v]) lowest_entry_time[u] = min(lowest_entry_time[u], entry_time[v]);
         // Tree edge
         else {
@@ -85,10 +85,10 @@ void dfs(int u, int p, int time) {
             // Here we are looping over children of u and picking lowest_entry_time
             // of the highest ancestor that can be reached by any children.
             lowest_entry_time[u] = min(lowest_entry_time[u], lowest_entry_time[v]);
-            // If highest ancestor we go with v (denoted by lowest_entry_time[v]) is
-            // still short of, when we first enter u then we have found a bridge.
+            // If highest ancestor that we can go with v (denoted by lowest_entry_time[v])
+            // is still short of, when we first enter u then we have found a bridge.
             // In other words, u is higher up in DFS tree than the highest we can reach
-            // with v.
+            // with v or its decendants.
             //
             // NOTE that if lowest_entry_time[v] <= entry_time[u], then v or any of its
             // children can exactly reach u or can even go higher than u using back edge.
