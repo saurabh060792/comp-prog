@@ -37,7 +37,7 @@ int main() {
     comp_num = find_comp();
 
     for (int i = 0; i < comp_num; i++) success += (comp_count[i] * (comp_count[i] - 1));
-    cout << fixed << setprecision(5) << (1.0 - 1.0 * success / (1LL * n * (n - 1)));
+    printf("%.5Lf", (1.0L - 1.0L * success / (1LL * n * (n - 1))));
     return 0;
 }
 
