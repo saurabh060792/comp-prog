@@ -76,8 +76,8 @@ void dfs(int u, int p, int time) {
         if (v == p) continue;
         // Back edge: It can never be a bridge as existence of back edge denotes a cycle
         // with one of its edge (u, v). So here we are just looping over all the back edges
-        // to v and picking up the highest ancestor v (ie with the lowest entry_time) to
-        // u has a back edge.
+        // to v and picking up the highest ancestor v (ie with the lowest entry_time) for
+        // which u has a back edge.
         if (visited[v]) lowest_entry_time[u] = min(lowest_entry_time[u], entry_time[v]);
         // Tree edge
         else {
