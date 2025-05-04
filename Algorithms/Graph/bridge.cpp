@@ -22,6 +22,7 @@ vertex V[MAX];
 vector<int> graph[MAX];
 vector<pair<int, int>> critical_edges;
 
+// https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=737
 int main() {
     int u, v, degree;
     char ch;
