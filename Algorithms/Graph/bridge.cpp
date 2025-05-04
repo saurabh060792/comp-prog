@@ -4,26 +4,31 @@
 #include <algorithm>
 #include <cstring>
 
-#define MAX 1010
+#define MAX 100010
 
 using namespace std;
+
+struct vertex {
+    int entry_time, lowest_entry_time;
+    bool visited;
+};
 
 void bridge(int u, int v);
 int dfs(int u, int p, int time);
 void find_bridges();
 
 int n;
-vector<bool> visited;
-vector<vector<int>> graph;
-vector<int> entry_time, lowest_entry_time;
+vertex V[MAX];
+vector<int> graph[MAX];
 vector<pair<int, int>> critical_edges;
 
 int main() {
     int u, v, degree;
     char ch;
     while (scanf("%d", &n) != EOF) {
-        graph.clear();
-        graph.resize(n + 1);
+        memset(V, 0, sizeof(V));
+        for (int i = 0; i < MAX; i++) graph[i].clear();
+        critical_edges.clear();
         for (int i = 0; i < n; i++) {
             scanf("%d %c%d%c ", &u, &ch, &degree, &ch);
             for (int j = 0; j < degree; j++) {
@@ -43,8 +48,8 @@ int main() {
 }
 
 int dfs(int u, int p, int time) {
-    visited[u] = true;
-    entry_time[u] = time;
+    V[u].visited = true;
+    V[u].entry_time = time;
 
     // lowest_entry_time stores the entry time of the vertex (lets say s) which is
     // entered the earliest in the DFS search such that vertex u or its decendants
@@ -71,20 +76,20 @@ int dfs(int u, int p, int time) {
     // lowest_entry_time
     // 0 1 2 3 4 5 6 7
     // 0 0 0 3 3 3 4 4
-    lowest_entry_time[u] = time;
+    V[u].lowest_entry_time = time;
     for (int v : graph[u]) {
         if (v == p) continue;
         // Back edge: It can never be a bridge as existence of back edge denotes a cycle
         // with one of its edge (u, v). So here we are just looping over all the back edges
         // to v and picking up the highest ancestor v (ie with the lowest entry_time) for
         // which u has a back edge.
-        if (visited[v]) lowest_entry_time[u] = min(lowest_entry_time[u], entry_time[v]);
+        if (V[v].visited) V[u].lowest_entry_time = min(V[u].lowest_entry_time, V[v].entry_time);
         // Tree edge
         else {
             time = dfs(v, u, time + 1);
             // Here we are looping over children of u and picking lowest_entry_time
             // of the highest ancestor that can be reached by any children.
-            lowest_entry_time[u] = min(lowest_entry_time[u], lowest_entry_time[v]);
+            V[u].lowest_entry_time = min(V[u].lowest_entry_time, V[v].lowest_entry_time);
             // If highest ancestor that we can go with v (denoted by lowest_entry_time[v])
             // is still short of, when we first enter u then we have found a bridge.
             // In other words, u is higher up in DFS tree than the highest we can reach
@@ -94,18 +99,14 @@ int dfs(int u, int p, int time) {
             // children can exactly reach u or can even go higher than u using back edge.
             // In that case, edge (u, v) cannot be bridge becuase there is a back edge
             // from v or from one of its decendants to u or an ancestor of u.
-            if (lowest_entry_time[v] > entry_time[u]) bridge(u, v);
+            if (V[v].lowest_entry_time > V[u].entry_time) bridge(u, v);
         }
     }
     return time;
 }
 
 void find_bridges() {
-    critical_edges.clear();
-    visited.assign(n + 1, false);
-    entry_time.assign(n + 1, -1);
-    lowest_entry_time.assign(n + 1, -1);
-    for (int i = 0; i < n; i++) if (!visited[i]) dfs(i, -1, 0);
+    for (int u = 0; u < n; u++) if (!V[u].visited) dfs(u, -1, 0);
 }
 
 void bridge(int u, int v) {
