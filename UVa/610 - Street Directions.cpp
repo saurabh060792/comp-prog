@@ -35,7 +35,7 @@ int main() {
         for (int u = 1; u <= n; u++)
             for (int v : modified_graph[u])
                 printf("%d %d\n", u, v);
-        puts("#");
+        printf("#");
     }
     return 0;
 }
