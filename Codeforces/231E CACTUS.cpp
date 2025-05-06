@@ -38,6 +38,14 @@ map<pair<int, int>, int> back_edge_vertices_to_id;
 map<int, int> cc;
 
 // https://codeforces.com/blog/entry/68138
+// Compress cycles in the graph into a single node by
+// giving each back edge an id (starting from n+1) and 
+// then using those cycle id as vertex id for the
+// resulting compressed tree.
+// 
+// Then run a coordination compression on the vertices id
+// of the tree. Then build the ancestor table for calculating
+// lca in that tree to answer the queries.
 int main() {
     int q, u, v, tu, tv, tl;
     lli ans, colors_in_path;
@@ -129,6 +137,7 @@ void tree_dfs(int u, int p) {
     return;
 }
 
+// Returns the size of array after coordinate compression.
 int cordinate_compression() {
     for (int i = 1; i <= n; i++) cc_numbers[i - 1] = V[i].cycle_id;
     sort(cc_numbers, cc_numbers + n);
