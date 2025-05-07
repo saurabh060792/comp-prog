@@ -39,10 +39,10 @@ map<int, int> cc;
 
 // https://codeforces.com/blog/entry/68138
 // Compress cycles in the graph into a single node by
-// giving each back edge an id (starting from n+1) and 
+// giving each back edge an id (starting from n+1) and
 // then using those cycle id as vertex id for the
 // resulting compressed tree.
-// 
+//
 // Then run a coordination compression on the vertices id
 // of the tree. Then build the ancestor table for calculating
 // lca in that tree to answer the queries.
@@ -95,9 +95,16 @@ void dfs(int u, int p) {
     for (int v : graph[u]) {
         if (v == p) continue;
         if (V[v].visited) {
-            update_back_edge_map(u, v);
-            if (V[v].depth > V[u].depth) V[u].down_back_edge_vertex = v;
-            else V[u].up_back_edge_vertex = v;
+            // We just have take care of the back edge once.
+            // Here we are processing back edge whenever it
+            // is going from up from u to v. We dont have to
+            // consider back edge going down from u becuase
+            // it will be take care by that decendant of u.
+            if (V[v].depth < V[u].depth) {
+                update_back_edge_map(u, v);
+                V[v].down_back_edge_vertex = u;
+                V[u].up_back_edge_vertex = v;
+            }
         }
         else {
             V[v].depth = V[u].depth + 1;
@@ -122,8 +129,7 @@ void dfs(int u, int p) {
 
 void update_back_edge_map(int u, int v) {
     if (u > v) swap(u, v);
-    if (back_edge_vertices_to_id.find({u, v}) == back_edge_vertices_to_id.end())
-        back_edge_vertices_to_id[ {u, v}] = id++;
+    back_edge_vertices_to_id[ {u, v}] = id++;
 }
 
 void tree_dfs(int u, int p) {
