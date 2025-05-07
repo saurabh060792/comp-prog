@@ -97,9 +97,9 @@ void dfs(int u, int p) {
         if (V[v].visited) {
             // We just have take care of the back edge once.
             // Here we are processing back edge whenever it
-            // is going from up from u to v. We dont have to
+            // is going up from u to v. We dont have to
             // consider back edge going down from u becuase
-            // it will be take care by that decendant of u.
+            // it will be taken care by that decendant of u.
             if (V[v].depth < V[u].depth) {
                 update_back_edge_map(u, v);
                 V[v].down_back_edge_vertex = u;
