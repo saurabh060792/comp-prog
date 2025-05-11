@@ -23,6 +23,7 @@ vertex V[MAX];
 vector<int> graph[MAX];
 vector<pair<int, int>> critical_edges;
 
+// https://codeforces.com/blog/entry/68138
 int main() {
     int t, u, v;
     scanf("%d", &t);
