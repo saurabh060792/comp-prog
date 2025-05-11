@@ -64,7 +64,7 @@ void dfs(int u, int p) {
             V[v].depth = V[u].depth + 1;
             dfs(v, u);
             V[u].lowest_depth_reachable = min(V[u].lowest_depth_reachable, V[v].lowest_depth_reachable);
-            // If lowest_depth_reachable for v is as low as u's depth then
+            // If lowest_depth_reachable for v is below u's depth then
             // that mean there is no back edge from v or any of its decendants
             // that goes over edge (v, u) so this edge is a bridge.
             if (V[v].lowest_depth_reachable > V[u].depth) bridge(u, v);
