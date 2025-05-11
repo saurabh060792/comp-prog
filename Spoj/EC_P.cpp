@@ -4,25 +4,34 @@
 #include <algorithm>
 #include <cstring>
 
+#define MAX 100010
+
 using namespace std;
+
+struct vertex {
+    // Lowest depth vertex (ie highest vertex in a tree) reachable
+    // using back edge by this vertex or its decendants in a DFS tree.
+    int depth, lowest_depth_reachable;
+    bool visited;
+};
 
 void bridge(int u, int v);
 int dfs(int u, int p, int time);
 void find_bridges();
 
 int n, m;
-vector<bool> visited;
-vector<vector<int>> graph;
-vector<int> entry_time, lowest_entry_time;
+vertex V[MAX];
+vector<int> graph[MAX];
 vector<pair<int, int>> critical_edges;
 
 int main() {
-    int t, u, v, degree;
+    int t, u, v;
     scanf("%d", &t);
     for (int test_case = 1; test_case <= t; test_case++) {
         scanf("%d%d", &n, &m);
-        graph.clear();
-        graph.resize(n + 1);
+        for (int i = 0; i <= n; i++) graph[i].clear();
+        critical_edges.clear();
+        memset(V, 0, sizeof(V));
         for (int i = 0; i < m; i++) {
             scanf("%d%d", &u, &v);
             graph[u].push_back(v);
@@ -39,29 +48,34 @@ int main() {
     return 0;
 }
 
-int dfs(int u, int p, int time) {
-    visited[u] = true;
-    entry_time[u] = time;
-    lowest_entry_time[u] = time;
+void dfs(int u, int p) {
+    V[u].visited = true;
+    V[u].lowest_depth_reachable = V[u].depth;
     for (int v : graph[u]) {
         if (v == p) continue;
-
-        if (visited[v]) lowest_entry_time[u] = min(lowest_entry_time[u], entry_time[v]);
+        if (V[v].visited) {
+            // If v is decendant of u then u's lowest_depth_reachable
+            // will be unchanged otherwise when v is an ancestor of u
+            // then lowest_depth_reachable will be changed to v's depth.
+            V[u].lowest_depth_reachable =
+                min(V[u].lowest_depth_reachable, V[v].depth);
+        }
         else {
-            time = dfs(v, u, time + 1);
-            lowest_entry_time[u] = min(lowest_entry_time[u], lowest_entry_time[v]);
-            if (lowest_entry_time[v] > entry_time[u]) bridge(u, v);
+            V[v].depth = V[u].depth + 1;
+            dfs(v, u);
+            V[u].lowest_depth_reachable =
+                min(V[u].lowest_depth_reachable, V[v].lowest_depth_reachable);
+            // If lowest_depth_reachable for v is as low as u's depth then
+            // that mean there is no back edge from v or any of its decendants
+            // that goes over edge (v, u) so this edge is a bridge.
+            if (V[v].lowest_depth_reachable > V[u].depth) bridge(u, v);
         }
     }
-    return time;
+    return;
 }
 
 void find_bridges() {
-    critical_edges.clear();
-    visited.assign(n + 1, false);
-    entry_time.assign(n + 1, -1);
-    lowest_entry_time.assign(n + 1, -1);
-    for (int i = 1; i <= n; i++) if (!visited[i]) dfs(i, -1, 0);
+    for (int i = 1; i <= n; i++) if (!V[i].visited) dfs(i, -1);
 }
 
 void bridge(int u, int v) {
