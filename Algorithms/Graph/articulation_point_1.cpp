@@ -15,7 +15,7 @@ struct vertex {
     bool visited;
 };
 
-int dfs(int u, int p, int time);
+void dfs(int u, int p);
 void find_articulation_points();
 
 int n, m;
