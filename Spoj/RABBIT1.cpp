@@ -1,3 +1,24 @@
+// Another solution using Pisano Period.
+// #include <iostream>
+
+// using namespace std;
+
+// int f[1572864];
+
+// int main() {
+//     int i, t, n, m;
+//     f[0] = 1;
+//     f[1] = 1;
+//     // Pisano period of 2^n is 3*2^(k-1) = 3*2^19 = 1572864
+//     for (i = 2; i < 1572864; i++) f[i] = (f[i - 1] + f[i - 2]) % 1048576;
+//     scanf("%d", &t);
+//     while (t--) {
+//         scanf("%d%d", &n, &m);
+//         printf("%d\n", f[n % 1572864] % (1 << m));
+//     }
+//     return 0;
+// }
+
 #include <iostream>
 #include <vector>
 
