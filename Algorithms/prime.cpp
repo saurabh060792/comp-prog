@@ -52,6 +52,7 @@ void sieve_of_eratosthenes() {
     }
 }
 
+// Prime Factorization.
 vector<pair<lli, lli>> prime_decomposition(lli x) {
     vector<pair<lli, lli>> answer;
     for(lli p: primes) {
