@@ -23,13 +23,20 @@ int log2_floor(int n);
 int lca(int x, int y);
 bool on_path(int a, int b, int c);
 
-int n, m, block_cut_tree_n, ancestor[MAXLOG][3 * MAX];
+// Block cut tree can have vertices much larger than the vertices of
+// original graph. For example consider a line graph, every vertex
+// except for 2 leaves will be articulation points and there will be
+// n - 1 biconnected components. So in total there will be 2n - 3
+// vertices in block cut tree.
+int n, m, block_cut_tree_n, ancestor[MAXLOG][2 * MAX];
 bool is_articulation_point[MAX];
-vertex V[3 * MAX];
-vector<int> graph[MAX], tree[3 * MAX];
+vertex V[2 * MAX];
+vector<int> graph[MAX], tree[2 * MAX];
 vector<vector<int>> components;
 stack<int> stk;
 
+// https://cses.fi/problemset/task/1705/
+// https://www.youtube.com/live/iYJqgMKYsdI?si=wLKhleKSdFeiA8HU&t=2700
 int main() {
     int u, v, q, a, b, c;
     scanf("%d%d%d", &n, &m, &q);
@@ -72,6 +79,10 @@ void dfs(int u, int p) {
             V[u].lowest_depth_reachable = min(V[u].lowest_depth_reachable, V[v].lowest_depth_reachable);
             if (V[v].lowest_depth_reachable >= V[u].depth) {
                 is_articulation_point[u] = children > 1 || p != 0;
+                // Here we have detected that u is an articulation point as its child
+                // v cannot reach above u. So we put u in biconnected component and then
+                // we know that everything till v in stack belong to this biconnected
+                // component. All these vertices are in v's subtree.
                 components.push_back({u});
                 while (components.back().back() != v) {
                     components.back().push_back(stk.top());
@@ -90,6 +101,7 @@ void find_bcc() {
     for (int i = 1; i <= n; i++) if (!V[i].visited) dfs(i, 0);
 }
 
+// In a block-cut tree, every articulation and biconnected component represents a node.
 int build_block_cut_tree() {
     int id = 1;
     for (int u = 1; u <= n; u++) if (is_articulation_point[u]) V[u].comp_id = id++;
@@ -150,6 +162,7 @@ int lca(int x, int y) {
     return ancestor[0][x];
 }
 
+// If c in on path from a to b.
 bool on_path(int a, int b, int c) {
     int lca_ab = lca(a, b), lca_ac = lca(a, c), lca_bc = lca(b, c);
     if (lca_ab == c || (lca_ac == c && lca_ab == lca_bc) || (lca_bc == c && lca_ab == lca_ac))
