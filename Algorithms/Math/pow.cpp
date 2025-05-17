@@ -19,7 +19,7 @@ lli pow(lli a, lli exp) {
 }
 
 int main() {
-    ans = pow(3, 5)
+    lli ans = pow(3, 5);
     printf("%lld\n", ans);
     return 0;
 }
