@@ -87,6 +87,9 @@ int strongly_connected_components() {
 // Every vertex will have a (bool, lli) pair. First one denoting
 // if t is reachable or not. If not reachable second value will be
 // 0 else it will contain the sum from u to t.
+//
+// Further condensation graph is acyclic so no back edges only tree,
+// forward and cross edges whic makes the followwing logic work.
 void path(int u, int t) {
     V[u].visited = true;
     if (u == t) {
