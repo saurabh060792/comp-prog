@@ -66,6 +66,10 @@ int strongly_connected_components() {
         dfs(u, graph_t, component);
         // Componenets are discovered from transpose graph that means
         // components.back() will have no path to components.back().back().
+        // That means if we start from the first component in components vector
+        // we can reach any vertex unless the graph is disconnected.
+        //
+        // This fact is helpful in solving https://cses.fi/problemset/task/1686
         components.push_back(component);
         total_fun = 0;
         for (int v : component) {
@@ -89,6 +93,9 @@ int strongly_connected_components() {
 // Every vertex will have a (bool, lli) pair. First one denoting
 // if t is reachable or not. If not reachable second value will be
 // 0 else it will contain the sum from u to t.
+//
+// Further condensation graph is acyclic so no back edges only tree,
+// forward and cross edges whic makes the followwing logic work.
 void path(int u, int t) {
     V[u].visited = true;
     if (u == t) {
