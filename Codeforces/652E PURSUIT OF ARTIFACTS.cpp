@@ -109,6 +109,7 @@ int build_bridge_tree() {
     return bridge_tree_n;
 }
 
+// Aggregates answer along the path from u.
 void path(int u, bool ans) {
     V[u].visited = true;
     ans |= component_artifact[u];
