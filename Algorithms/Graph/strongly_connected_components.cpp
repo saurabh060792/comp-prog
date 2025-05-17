@@ -64,6 +64,8 @@ int strongly_connected_components() {
         if (V[u].visited) continue;
         vector<int> component;
         dfs(u, graph_t, component);
+        // Componenets are discovered from transpose graph that means
+        // components.back() will have no path to components.back().back().
         components.push_back(component);
         total_fun = 0;
         for (int v : component) {
