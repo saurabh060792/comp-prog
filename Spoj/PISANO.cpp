@@ -34,7 +34,7 @@ vector<lli> primes;
 vector<vector<lli>> fibonacciMatrix = {{0, 1}, {1, 1}};
 
 // https://webspace.ship.edu/msrenault/fibonacci/fib.htm
-// // http://www.jstor.org/stable/2309169?seq=1
+// http://www.jstor.org/stable/2309169?seq=1
 int main() {
     int t;
     lli n;
