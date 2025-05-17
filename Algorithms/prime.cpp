@@ -44,12 +44,12 @@ void sieve_of_eratosthenes() {
     is_prime[1] = false;
     for (lli i = 2; i <= sqrt(MAX) + 1; i++) {
         if (is_prime[i]) {
-            primes.push_back(i);
             for (lli j = i * i; j < MAX; j += i) {
                 is_prime[j] = false;
             }
         }
     }
+    for (int i = 0; i < MAX; i++) if (is_prime[i]) primes.push_back(i);
 }
 
 // Prime Factorization.
