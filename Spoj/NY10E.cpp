@@ -7,6 +7,7 @@ using namespace std;
 
 typedef long long int lli;
 
+// dp[i][j] denotes the count of numbers of i digits ending with j.
 lli dp[MAX + 1][MAXDIGIT + 1], ans[MAX];
 
 int main() {
