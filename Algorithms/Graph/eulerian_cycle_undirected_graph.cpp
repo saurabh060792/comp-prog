@@ -11,7 +11,7 @@ void dfs(int u);
 
 // Stores adjacent node and the edge index.
 vector<pair<int, int>> graph[MAX];
-vector<int> eulerian_path;
+vector<int> eulerian_cycle;
 int n, m, degree[MAX];
 bool visited_edge[MAX];
 
@@ -38,14 +38,14 @@ int main() {
 
     dfs(1);
 
-    if (eulerian_path.size() != m + 1) printf("IMPOSSIBLE\n");
-    else for (int u : eulerian_path) printf("%d ", u);
+    if (eulerian_cycle.size() != m + 1) printf("IMPOSSIBLE\n");
+    else for (int u : eulerian_cycle) printf("%d ", u);
 
     return 0;
 }
 
 // Hierholzer's algorithm
-// https://en.wikipedia.org/wiki/Eulerian_path#Hierholzer's_algorithm
+// https://en.wikipedia.org/wiki/eulerian_cycle#Hierholzer's_algorithm
 void dfs(int u) {
     while (!graph[u].empty()) {
         auto [v, idx] = graph[u].back();
@@ -58,5 +58,5 @@ void dfs(int u) {
         visited_edge[idx] = true;
         dfs(v);
     }
-    eulerian_path.push_back(u);
+    eulerian_cycle.push_back(u);
 }
