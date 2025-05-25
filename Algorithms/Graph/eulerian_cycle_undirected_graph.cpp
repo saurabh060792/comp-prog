@@ -1,10 +1,5 @@
 #include <iostream>
-#include <queue>
 #include <vector>
-#include <map>
-#include <cstring>
-#include <algorithm>
-#include <climits>
 
 #define MAX 200010
 
@@ -55,6 +50,10 @@ void dfs(int u) {
     while (!graph[u].empty()) {
         auto [v, idx] = graph[u].back();
         graph[u].pop_back();
+        // Visited edges is needed in undirected graph case
+        // becuase even though we removed the v from u's
+        // adjacency list, u will still be there in v's
+        // adjacency list.
         if (visited_edge[idx]) continue;
         visited_edge[idx] = true;
         dfs(v);
