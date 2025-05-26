@@ -37,7 +37,7 @@ int main() {
     // No need to build segment tree. If there are no updates then
     // point query is just asking for array elements. However
     // if there are updates then tree internal nodes (non leaf nodes)
-    // will store temporary values which may get propaged to leaf
+    // will store temporary values which may get propagated to leaf
     // at the time of query.
 
     // build(n);
