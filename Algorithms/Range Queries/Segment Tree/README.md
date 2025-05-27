@@ -1,0 +1,3 @@
+Supported Operations:
+1. **Range Query and Order Agnostic Point Update**: Order agnostic point update means the order of updates doesn't matter. For example if range query is sum and point update is also sum.
+2. **Range Query and Point Update**: In this case order does matter. For example if range query is sum and point update is set operation (a[i] <- new_value). The final outcome will depend on which set operation happened last. However note that in the set operation as point update there is a trick to convert it to sum operation. The trick is a[i] <- new_value is equivalent to a[i] += new_value - a[i]. But this trick only work in case of point updates.
