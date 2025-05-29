@@ -55,6 +55,7 @@ void build(int node, int tl, int tr) {
     tree[node].maximum = max(tree[left_node].maximum, tree[right_node].maximum);
 }
 
+// Call with node = 1, tl = 0, tr = 0
 int get_first(int node, int tl, int tr, int l, int r, int x) {
     if(tl > r || tr < l) return -1;
     if(tree[node].maximum < x) return -1;
