@@ -17,10 +17,11 @@ lli bit[MAX], arr[MAX];
 pair<lli, lli> queries[MAX];
 vector<lli> all_numbers;
 map<lli, int> cc;
+int n;
 
 // https://www.spoj.com/problems/SGIFT/
 int main() {
-    int n, q, a, b, index;
+    int q, a, b, index;
     lli temp;
     cin>>n;
     for (int i = 0; i < n; i++) {
@@ -63,5 +64,5 @@ lli prefix_query(int x) {
 }
 
 void point_update(int x, lli delta) {
-    for (int i = x; i <= MAX; i += i&(-i)) bit[i] += delta;
+    for (int i = x; i <= n; i += i&(-i)) bit[i] += delta;
 }
