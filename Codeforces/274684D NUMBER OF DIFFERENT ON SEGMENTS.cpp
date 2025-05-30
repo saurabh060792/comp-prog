@@ -27,7 +27,7 @@ int main() {
     // Initialize tree with array elements in Iterative Segment Tree.
     for (int i = 0; i < n; i++) {
         scanf("%lld", &val);
-        tree[n + i].freq = 1ll << val;
+        tree[n + i].freq = 1LL << val;
     }
 
     build(n);
@@ -54,7 +54,7 @@ void build(int n) {
 
 // Set value at position p and recalculate all O(log n) tree nodes.
 void update(int n, int p, lli value) {
-    for (tree[p += n] = {1ll << value}; p > 1; p >>= 1) tree[p >> 1] = combine(tree[p], tree[p ^ 1]);
+    for (tree[p += n] = {1LL << value}; p > 1; p >>= 1) tree[p >> 1] = combine(tree[p], tree[p ^ 1]);
 }
 
 // Query on interval [l, r]
