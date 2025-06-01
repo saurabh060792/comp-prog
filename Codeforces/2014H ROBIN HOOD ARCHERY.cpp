@@ -6,7 +6,6 @@
 #include <chrono>
 #include <climits>
 #include <vector>
-#include <bitset>
 
 using namespace std;
 
