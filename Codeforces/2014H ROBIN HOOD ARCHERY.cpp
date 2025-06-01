@@ -17,6 +17,7 @@ typedef long long int lli;
 vector<lli> prefix_xor;
 map<int, lli> assigned_value;
 
+// https://codeforces.com/blog/entry/85900
 int main() {
     mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
     int t, n, q, l, r, x;
