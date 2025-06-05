@@ -93,8 +93,7 @@ segment_tree_node query(int n, int l, int r) {
 
 segment_tree_node combine(segment_tree_node left_node, segment_tree_node right_node) {
     segment_tree_node res;
-    if (left_node.maximum > right_node.maximum
-       ) res = left_node;
+    if (left_node.maximum > right_node.maximum) res = left_node;
     else res = right_node;
     return res;
 }
