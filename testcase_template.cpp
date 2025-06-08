@@ -7,6 +7,8 @@ using namespace std;
 typedef long long int lli;
 typedef pair<lli, lli> pll;
 
+void solve();
+
 int main() {
     lli t;
     scanf("%lld", &t);
