@@ -37,9 +37,22 @@ int main() {
 }
 
 int query(int l, int r, int c) {
-
+    int ans = 0;
+    int bl = l / BLOCK_SIZE, br = r / BLOCK_SIZE;
+    if (bl == br) {
+        for (int i = l; i <= r; i++) if (arr[i] >= c) ans++;
+    } else {
+        for (int i = l, end = (bl + 1) * BLOCK_SIZE - 1; i <= end; i++) if (arr[i] >= c) ans++;
+        // https://stackoverflow.com/a/41958622/1056672
+        for (int i = bl + 1; i < br; i++) ans += (block[i].size() - (lower_bound(block[i].begin(), block[i].end(), c) - block[i].begin()));
+        for (int i = br * BLOCK_SIZE; i <= r; i++) if (arr[i] >= c) ans++;
+    }
+    return ans;
 }
 
 void update(int idx, int val) {
-
+    int block_id = idx / BLOCK_SIZE;
+    int val_sorted_idx = lower_bound(block[block_id].begin(), block[block_id].end(), arr[idx]) - block[block_id].begin();
+    block[block_id][val_sorted_idx] = arr[idx] = val;
+    sort(block[block_id].begin(), block[block_id].end());
 }
