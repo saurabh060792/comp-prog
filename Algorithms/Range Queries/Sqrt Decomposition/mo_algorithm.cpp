@@ -10,7 +10,7 @@ using namespace std;
 #define MAXNUM 1000006
 
 struct query {
-    int l, r, bucket, id;
+    int l, r, block, id;
     // In odd blocks sort the right index in ascending order and
 	// in even blocks sort it in descending order. This will
 	// minimize the movement of right pointer, as the normal
@@ -18,8 +18,8 @@ struct query {
 	// the beginning at the start of every block. With the improved
 	// version this resetting is no more necessary.
     int operator<(query q)const {
-    	if (bucket != q.bucket) return bucket < q.bucket;
-    	return (bucket & 1) ? (r < q.r) : (r > q.r);
+    	if (block != q.block) return block < q.block;
+    	return (block & 1) ? (r < q.r) : (r > q.r);
 	}
 };
 
@@ -39,7 +39,7 @@ int main() {
         scanf("%d%d", &Q[i].l, &Q[i].r);
         Q[i].l--, Q[i].r--;
         Q[i].id = i;
-        Q[i].bucket = Q[i].l / MAXSQRT;
+        Q[i].block = Q[i].l / MAXSQRT;
     }
     sort(Q, Q + q);
     l = 0, r = -1;
