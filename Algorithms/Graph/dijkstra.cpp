@@ -4,6 +4,7 @@
 #include <climits>
 
 #define MAX 200010
+#define INF 1000000000000015
 
 using namespace std;
 
@@ -36,7 +37,7 @@ void dijkstra(lli s) {
     lli u, v, d;
     // {distance, index} pair.
     priority_queue<pll, vector<pll>, greater<pll>> Q;
-    for (int i = 1; i <= n; i++) V[i].d = LLONG_MAX;
+    for (int i = 1; i <= n; i++) V[i].d = INF;
     V[s] = {0, 0};
     Q.push({0, s});
     while (!Q.empty()) {
