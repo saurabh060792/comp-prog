@@ -8,6 +8,34 @@ using namespace std;
 typedef long long int lli;
 typedef pair<lli, lli> pll;
 
+// Normal DSU
+// struct dsu {
+//     vector<int> parent, size;
+
+//     dsu(int n) {
+//         parent.resize(n);
+//         for (int i = 0; i < n; i++) parent[i] = i;
+//         size.resize(n, 0);
+//     }
+
+//     void union_sets(int u, int v) {
+//         int pu, pv;
+//         pu = find_set(u);
+//         pv = find_set(v);
+//         if (pu == pv) return;
+//         if (size[pu] < size[pv]) swap(pu, pv);
+//         parent[pv] = pu;
+//         size[pu] += size[pv];
+//         return;
+//     }
+
+//     int find_set(int v) {
+//         if (v == parent[v]) return v;
+//         return parent[v] = find_set(parent[v]);
+//     }
+// };
+
+// DSU with extra data
 struct dsu {
     vector<int> parent, size, minimum, maximum;
 
