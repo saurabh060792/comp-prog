@@ -12,11 +12,11 @@ using namespace std;
 struct query {
     int l, r, block, id;
     // In odd blocks sort the right index in ascending order and
-	// in even blocks sort it in descending order. This will
-	// minimize the movement of right pointer, as the normal
-	// sorting will move the right pointer from the end back to
-	// the beginning at the start of every block. With the improved
-	// version this resetting is no more necessary.
+    // in even blocks sort it in descending order. This will
+    // minimize the movement of right pointer, as the normal
+    // sorting will move the right pointer from the end back to
+    // the beginning at the start of every block. With the improved
+    // version this resetting is no more necessary.
     int operator<(query q)const {
     	if (block != q.block) return block < q.block;
     	return (block & 1) ? (r < q.r) : (r > q.r);
