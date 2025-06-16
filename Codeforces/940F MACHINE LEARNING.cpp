@@ -65,8 +65,7 @@ int main() {
 }
 
 int compress(int x) {
-    if (!cc[x])
-        cc[x] = cc_index++;
+    if (!cc[x]) cc[x] = cc_index++;
     return cc[x];
 }
 
