@@ -50,14 +50,11 @@ def write_list(f, a):
 def genTestCase():
 	f = open("in","w")
 
-	# n = 10
-	# write_list(f, [n])
-	# for i in range(n):
-	# 	f.write(str(random.randint(1,3)) + " ")
-
-	genPermutationTestCase(f)
+	# genPermutationTestCase(f)
 	
 	# genQueryTestCase(f)
+
+	genTreeQueryTestCase(f)
 
 	f.close()
 
@@ -92,6 +89,70 @@ def genQueryTestCase(f):
 			r = n
 			k = random.randint(1,1000)
 			write_list(f, [2,l,r,k])
+
+def genTreeQueryTestCase(f):
+	n = 5
+	q = 5
+	write_list(f, [n,q])
+	for i in range(n) :
+		f.write(str(random.randint(1,20)) + " ")
+	f.write("\n")
+	generateTree(f, n, -1)
+	for i in range(q) :
+		c = random.randint(1,2)
+		if c==1 :
+			# Query
+			u = random.randint(1, n)
+			v = random.randint(1, n)
+			write_list(f, [1, u, v])
+		else :
+			# Update
+			u = random.randint(1, n)
+			val = random.randint(1,20)
+			write_list(f, [2, u, val])
+
+def generateTree(f, n, max_weight):
+	parent = [i for i in range(n + 1)]
+	size = [1 for _ in range(n + 1)]
+	edges = []
+	weights = []
+
+	for i in range(n - 1):
+		x = random.randint(1, n)
+		y = random.randint(1, n)
+		while find(parent, x) == find(parent, y):
+			x = random.randint(1, n)
+			y = random.randint(1, n)
+		merge(parent, size, x, y)
+		edges.append((x, y))
+
+		if (max_weight != -1):
+			w = random.randint(1, max_weight)
+			weights.append(w)
+
+	for i in range(len(edges)):
+		if (max_weight != -1) :
+			write_list(f, [edges[i][0], edges[i][1], weights[i]])
+		else :
+			write_list(f, [edges[i][0], edges[i][1]])
+
+
+# DSU
+def find(parent, x):
+    if parent[x] == x:
+        return x
+    parent[x] = find(parent, parent[x])
+    return parent[x]
+
+def merge(parent, size, x, y):
+    r1 = find(parent, x)
+    r2 = find(parent, y)
+    if size[r1] < size[r2]:
+        parent[r1] = r2
+        size[r2] += size[r1]
+    else:
+        parent[r2] = r1
+        size[r1] += size[r2]
 
 if __name__ == "__main__":
     main()
