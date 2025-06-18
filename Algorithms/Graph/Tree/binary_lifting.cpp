@@ -120,7 +120,7 @@ int get_min_to_ancestor(int x, int anc) {
     return min_weight;
 }
 
-int lca(int x, int y) {
+int lca(vertex *V, int x, int y) {
     int k;
     if (V[x].depth < V[y].depth) swap(x, y);
     k = log2_floor(V[x].depth - V[y].depth);
