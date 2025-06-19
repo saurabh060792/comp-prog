@@ -102,7 +102,7 @@ void build_sparse_table(vertex *V, int n) {
 
 // Get the min along the path from x to its ancestor anc.
 // This function assumes that anc is an ancestor of x.
-int get_min_to_ancestor(int x, int anc) {
+int get_min_to_ancestor(vertex *V, int x, int anc) {
     int lg, k, min_weight = INF;
     k = V[x].depth - V[anc].depth;
     lg = log2_floor(k);
