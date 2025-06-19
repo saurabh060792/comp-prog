@@ -89,6 +89,7 @@ int main() {
         }
     }
 
+    // Second best MST will be minimum value in ans array that is not equal to mst_w.
     for (int i = 0; i < m; i++) printf("%lld\n", ans[i]);
 
     return 0;
