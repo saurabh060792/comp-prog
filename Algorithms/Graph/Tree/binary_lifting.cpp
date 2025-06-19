@@ -23,8 +23,8 @@ void dfs(int start_vertex);
 void build_ancestor_table(vertex *V, int n);
 void build_sparse_table(vertex *V, int n);
 int log2_floor(int n);
-int lca(int x, int y);
-int get_min_to_ancestor(int x, int anc);
+int lca(vertex *V, int x, int y);
+int get_min_to_ancestor(vertex *V, int x, int anc);
 
 vertex V[MAX];
 int ancestor[MAXLOG][MAX], minimum[MAXLOG][MAX];
