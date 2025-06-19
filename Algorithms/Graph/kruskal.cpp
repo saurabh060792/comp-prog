@@ -39,6 +39,7 @@ struct dsu {
 
 lli kruskal();
 
+vector<pair<int, int>> mst[MAX];
 pair<lli, pair<int, int>> edges[MAX];
 bool present_in_mst[MAX];
 int n, m;
@@ -66,6 +67,8 @@ lli kruskal() {
             d.union_sets(u, v);
             w += edges[i].first;
             present_in_mst[i] = true;
+            mst[u].push_back({v, w});
+            mst[v].push_back({u, w});
         }
     }
     return w;
