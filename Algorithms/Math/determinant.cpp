@@ -73,6 +73,8 @@ lli inverse(lli x) {
     return pow(x, (lli) MOD - 2);
 }
 
+// Integer Matrix. Choose prime greater which is greater than the answer as a MOD.
+// This is to avoid using double and division in determinant calculation.
 lli det(int n) {
     lli result = 1;
     for (int i = 0; i < n; i++) {
