@@ -18,6 +18,10 @@ lli pow(lli a, lli exp) {
    return ans;
 }
 
+lli inverse(lli x) {
+    return pow(x, (lli) M1 - 2);
+}
+
 int main() {
     lli ans = pow(3, 5);
     printf("%lld\n", ans);
