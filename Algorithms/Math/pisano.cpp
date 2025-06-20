@@ -51,6 +51,10 @@ int main() {
 }
 
 void print_int128(__int128 n) {
+    if (n == 0) {
+        printf("0\n");
+        return;
+    }
     vector<int> digits;
     while (n) {
         digits.push_back(n % 10);
