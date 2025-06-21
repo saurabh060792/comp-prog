@@ -10,8 +10,7 @@
 
 using namespace std;
 
-typedef struct vertex
-{
+typedef struct vertex {
 	int status,parent;
 }vertex;
 
