@@ -5,6 +5,7 @@
 
 #define MAX 200010
 #define INF 1000000000000015
+#define MOD 1000000007
 
 using namespace std;
 
@@ -12,7 +13,7 @@ typedef long long int lli;
 typedef pair<lli, lli> pll;
 
 struct vertex {
-    lli d, parent;
+    lli d, parent, paths;
 };
 
 void dijkstra(lli s);
@@ -38,7 +39,7 @@ void dijkstra(lli s) {
     // {distance, index} pair.
     priority_queue<pll, vector<pll>, greater<pll>> Q;
     for (int i = 1; i <= n; i++) V[i].d = INF;
-    V[s] = {0, s};
+    V[s] = {0, s, 1};
     Q.push({0, s});
     while (!Q.empty()) {
         u = Q.top().second;
@@ -68,7 +69,10 @@ void dijkstra(lli s) {
         for (auto v : graph[u]) {
             if (d + v.second < V[v.first].d) {
                 V[v.first].parent = u;
+		V[v.first].paths = V[u].paths;
                 Q.push({V[v.first].d = d + v.second, v.first});
+            } else if (d + v.second == V[v.first].d) {
+                V[v.first].paths = (V[u].paths + V[v.first].paths) % MOD;
             }
         }
     }
