@@ -38,7 +38,7 @@ void dijkstra(lli s) {
     // {distance, index} pair.
     priority_queue<pll, vector<pll>, greater<pll>> Q;
     for (int i = 1; i <= n; i++) V[i].d = INF;
-    V[s] = {0, 0};
+    V[s] = {0, s};
     Q.push({0, s});
     while (!Q.empty()) {
         u = Q.top().second;
