@@ -20,16 +20,11 @@ int main() {
     cin >> s;
     n = s.length();
     vector<int> z = z_function(s);
-    vector<pair<int, lli>> ans;
     for (int i = 0; i < n; i++) freq[z[i]]++;
     for (int i = n - 1; i >= 0; i--) freq[i] += freq[i + 1];
     for (int i = 0; i < n; i++) freq[i]++;
-    for (int i = 0; i < n; i++) {
-        if (z[i] == n - i) {
-            ans.push_back(make_pair(z[i], freq[z[i]]));
-            if (freq[z[i]] > 2) max_length = max(max_length, z[i]);
-        }
-    }
+    for (int i = 0; i < n; i++)
+        if (z[i] == n - i && freq[z[i]] > 2) max_length = max(max_length, z[i]);
     cout << (max_length == -1 ? "Just a legend" : s.substr(0, max_length)) << "\n";
     return 0;
 }
