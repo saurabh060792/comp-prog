@@ -83,9 +83,31 @@ vector<int> z_function(string s) {
         // z[i] to z[i - l] then it will go beyond r and we can
         // see from the example that it will be incorrect. So
         // we have to clip z[i] till r. Hence z[i] will be
-        // r - i + 1.
+        // r - i + 1. In this case, while loop can improve our
+        // initial value of z[i] only when z[i - l] == r - i + 1
+        // that is we are right at edge. Eg
+        // 0 1 2 3 l i r
+        // a a a b a a a a
+        // |___|   |___|
+        // Here z[i] = 2 and z[l - i] = 2 that is we are right at
+        // the edge so there is a chance that while loop can improve
+        // initial guess (like in the example above). Otherwise
+        // if we have crossed the edge that is r - i + 1 < z[l - i]
+        // then we will never go while loop like Case 1.
         if (i <= r) z[i] = min(r - i + 1, z[i - l]);
         while (i + z[i] < n && s[z[i]] == s[i + z[i]]) z[i]++;
+        // If our while loop has found new matches that means r can
+        // be extended to i + z[i] - 1. However old l and new r wont
+        //  satify our requirement of right most substring match.
+        // Eg
+        // 0 1 2 3 l i r
+        // a a a b a a a a
+        // |___|   |___|
+        // When i = 5, z[i] gets initialized with 2. And then in
+        // while loop we find a match ie (s[z[i]] = s[2] = a) =
+        // (s[i + z[i]] = s[7]), so we incremented z[i]. Now old
+        // l = 4 and new r = 7 which doesn't match with the prefix
+        // of s. Hence we have update l to i.
         if (i + z[i] - 1 > r) {
             l = i;
             r = i + z[i] - 1;
