@@ -14,6 +14,7 @@ vector<int> suffix_array(string s);
 vector<int> sort_cyclic_shifts(string s);
 
 // https://codeforces.com/edu/course/2/lesson/2/1/practice/contest/269100/problem/A
+// https://youtu.be/dpu0RDXZAH0?si=OMDH4RL5qN0kQ-U3
 int main() {
     string s;
     cin >> s;
