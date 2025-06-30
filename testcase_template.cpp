@@ -1,12 +1,12 @@
 #include <bits/stdc++.h>
 
-#define MAX 200010
-
 using namespace std;
 
 typedef long long int lli;
 typedef pair<lli, lli> pll;
 typedef pair<int, int> pii;
+
+int const MAX = 100000;
 
 void solve();
 
