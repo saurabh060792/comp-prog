@@ -9,7 +9,7 @@ using namespace std;
 
 typedef long long int lli;
 
-void buildSparseTable(lli *a, lli n);
+void build_sparse_table(lli *a, lli n);
 lli log2_floor(lli i);
 
 lli minimum[MAXLOG][MAX];
@@ -18,7 +18,7 @@ int main() {
     lli n, q, l, r, k, a[MAX];
     cin>>n;
     for (int i = 0; i < n; i++) cin>>a[i];
-    buildSparseTable(a, n);
+    build_sparse_table(a, n);
 
     cin>>q;
     for (int i = 0; i < q; i++) {
@@ -33,7 +33,7 @@ lli log2_floor(lli i) {
     return i ? __builtin_clzll(1) - __builtin_clzll(i) : -1;
 }
 
-void buildSparseTable(lli *a, lli n) {
+void build_sparse_table(lli *a, lli n) {
     lli k = log2_floor(n);
     for (int i = 0; i < n; i++) minimum[0][i] = a[i];
     for (int i = 1; i <= k; i++) {
