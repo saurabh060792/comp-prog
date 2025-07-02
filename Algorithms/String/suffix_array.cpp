@@ -11,17 +11,34 @@ typedef pair<lli, lli> pll;
 int const ALPHABET_SIZE = 256;
 
 vector<int> suffix_array(string s);
-vector<int> sort_cyclic_shifts(string s);
+vector<int> sort_cyclic_shifts(const string &s);
+bool substring_search(const string& t, const string& s, const vector<int> &p);
 
-// https://codeforces.com/edu/course/2/lesson/2/1/practice/contest/269100/problem/A
+// https://codeforces.com/edu/course/2/lesson/2/3/practice/contest/269118/problem/A
 // https://youtu.be/dpu0RDXZAH0?si=OMDH4RL5qN0kQ-U3
 int main() {
-    string s;
-    cin >> s;
-    vector<int> p = suffix_array(s);
-    for (auto i : p) printf("%d ", i);
-    printf("\n");
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int q;
+    string s, t;
+    cin >> t;
+    vector<int> p = suffix_array(t);
+    cin >> q;
+    while (q--) {
+        cin >> s;
+        cout << ((substring_search(t, s, p)) ? "Yes" : "No") << "\n";
+    }
     return 0;
+}
+
+bool substring_search(const string& t, const string& s, const vector<int> &p) {
+    int l = -1, r = p.size(), m;
+    while (r - l > 1) {
+        m = (l + r) / 2;
+        if (t.substr(p[m], s.size()) < s) l = m;
+        else r = m;
+    }
+    return r < p.size() && t.substr(p[r], s.size()) == s;
 }
 
 // Sort cyclic shift of s. Eg if s = abbaba$ then its cyclic shifts will be
@@ -33,7 +50,7 @@ int main() {
 // ba$abba            ba$abba
 // a$abbab            baba$ab
 // $abbaba            bbaba$a
-vector<int> sort_cyclic_shifts(string s) {
+vector<int> sort_cyclic_shifts(const string &s) {
     int n = s.size();
     vector<int> p(n), c(n), cnt(max(ALPHABET_SIZE, n), 0);
 
