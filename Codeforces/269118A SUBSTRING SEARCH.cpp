@@ -12,7 +12,7 @@ int const ALPHABET_SIZE = 256;
 
 vector<int> suffix_array(string s);
 vector<int> sort_cyclic_shifts(const string &s);
-bool substring_search(const string& t, const string& s, const vector<int> &p);
+bool substring_search(const string &t, const string &s, const vector<int> &p);
 
 int main() {
     ios_base::sync_with_stdio(false);
@@ -29,7 +29,7 @@ int main() {
     return 0;
 }
 
-bool substring_search(const string& t, const string& s, const vector<int> &p) {
+bool substring_search(const string &t, const string &s, const vector<int> &p) {
     int l = -1, r = p.size(), m;
     while (r - l > 1) {
         m = (l + r) / 2;
