@@ -15,9 +15,10 @@ vector<int> sort_cyclic_shifts(const string &s);
 bool substring_search(const string &t, const string &s, const vector<int> &p);
 int substring_lower_bound(const string &t, const string &s, const vector<int> &p);
 int substring_upper_bound(const string &t, const string &s, const vector<int> &p);
+vector<int> lcp_array(const string &s, const vector<int> &p);
 
 // https://codeforces.com/edu/course/2/lesson/2/3/practice/contest/269118/problem/A
-https://codeforces.com/edu/course/2/lesson/2/3/practice/contest/269118/problem/B
+// https://codeforces.com/edu/course/2/lesson/2/3/practice/contest/269118/problem/B
 // https://youtu.be/dpu0RDXZAH0?si=OMDH4RL5qN0kQ-U3
 int main() {
     ios_base::sync_with_stdio(false);
@@ -181,4 +182,24 @@ vector<int> suffix_array(string s) {
     vector<int> sorted_shifts = sort_cyclic_shifts(s);
     sorted_shifts.erase(sorted_shifts.begin());
     return sorted_shifts;
+}
+
+vector<int> lcp_array(const string &s, const vector<int> &p) {
+    int n = s.size();
+    vector<int> rank(n, 0);
+    for (int i = 0; i < n; i++) rank[p[i]] = i;
+
+    int k = 0;
+    vector<int> lcp(n - 1, 0);
+    for (int i = 0; i < n; i++) {
+        if (rank[i] == n - 1) {
+            k = 0;
+            continue;
+        }
+        int j = p[rank[i] + 1];
+        while (i + k < n && j + k < n && s[i + k] == s[j + k]) k++;
+        lcp[rank[i]] = k;
+        if (k) k--;
+    }
+    return lcp;
 }
