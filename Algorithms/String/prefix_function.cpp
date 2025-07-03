@@ -44,7 +44,7 @@ vector<int> prefix_function(string s) {
     for (int i = 1; i < n; i++) {
         int j = pi[i - 1];
 
-        // When s[i] doesn't match with s[j], we s[i] = s[j]
+        // When s[i] doesn't match with s[j], we check s[i] = s[j]
         // with j = pi[pi[i - 1]] then pi[pi[pi[i - 1]]]
         //
         // For example
