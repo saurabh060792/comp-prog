@@ -91,10 +91,6 @@ vector<int> prefix_function(string s) {
         // see longest suffix of s[0..i-1] which is also a
         // prefix. Then if s[i] matches with s[pi[i-1]] (aka
         // s[j]), we set pi[i] = j + 1.
-        //
-        // For our above example, when i = 10 we initialize
-        // j = pi[9] = 3. And we see that s[10] = s[3]
-        // so we set pi[10] = 4.
         if (s[i] == s[j]) j++;
         pi[i] = j;
     }
