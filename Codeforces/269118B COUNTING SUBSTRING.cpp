@@ -12,8 +12,8 @@ int const ALPHABET_SIZE = 256;
 
 vector<int> suffix_array(string s);
 vector<int> sort_cyclic_shifts(const string &s);
-int substring_lower_bound(const string& t, const string& s, const vector<int> &p);
-int substring_upper_bound(const string& t, const string& s, const vector<int> &p);
+int substring_lower_bound(const string &t, const string &s, const vector<int> &p);
+int substring_upper_bound(const string &t, const string &s, const vector<int> &p);
 
 int main() {
     ios_base::sync_with_stdio(false);
@@ -30,7 +30,7 @@ int main() {
     return 0;
 }
 
-int substring_lower_bound(const string& t, const string& s, const vector<int> &p) {
+int substring_lower_bound(const string &t, const string &s, const vector<int> &p) {
     int l = -1, r = p.size(), m;
     while (r - l > 1) {
         m = (l + r) / 2;
@@ -40,7 +40,7 @@ int substring_lower_bound(const string& t, const string& s, const vector<int> &p
     return ++l;
 }
 
-int substring_upper_bound(const string& t, const string& s, const vector<int> &p) {
+int substring_upper_bound(const string &t, const string &s, const vector<int> &p) {
     int l = -1, r = p.size(), m;
     while (r - l > 1) {
         m = (l + r) / 2;
