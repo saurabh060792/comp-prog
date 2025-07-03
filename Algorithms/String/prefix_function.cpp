@@ -80,7 +80,7 @@ vector<int> prefix_function(string s) {
         // iteration. Hence j can only increase at most n times hence
         // this while loop will only run at most O(n) times overall.
         // Hence the complexity of computing the prefix function is
-        // O(n). If we initialize j with i instead of pi[i-] at the
+        // O(n). If we initialize j with i instead of pi[i-1] at the
         // start of the loop then our complexity will become O(n^2)
         // which happens in the naive implementation of prefix 
         // function automaton.
