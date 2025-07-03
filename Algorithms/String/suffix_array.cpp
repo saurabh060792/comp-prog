@@ -13,8 +13,11 @@ int const ALPHABET_SIZE = 256;
 vector<int> suffix_array(string s);
 vector<int> sort_cyclic_shifts(const string &s);
 bool substring_search(const string& t, const string& s, const vector<int> &p);
+int substring_lower_bound(const string& t, const string& s, const vector<int> &p);
+int substring_upper_bound(const string& t, const string& s, const vector<int> &p);
 
 // https://codeforces.com/edu/course/2/lesson/2/3/practice/contest/269118/problem/A
+https://codeforces.com/edu/course/2/lesson/2/3/practice/contest/269118/problem/B
 // https://youtu.be/dpu0RDXZAH0?si=OMDH4RL5qN0kQ-U3
 int main() {
     ios_base::sync_with_stdio(false);
@@ -39,6 +42,26 @@ bool substring_search(const string& t, const string& s, const vector<int> &p) {
         else r = m;
     }
     return r < p.size() && t.substr(p[r], s.size()) == s;
+}
+
+int substring_lower_bound(const string& t, const string& s, const vector<int> &p) {
+    int l = -1, r = p.size(), m;
+    while (r - l > 1) {
+        m = (l + r) / 2;
+        if (t.substr(p[m], s.size()) < s) l = m;
+        else r = m;
+    }
+    return ++l;
+}
+
+int substring_upper_bound(const string& t, const string& s, const vector<int> &p) {
+    int l = -1, r = p.size(), m;
+    while (r - l > 1) {
+        m = (l + r) / 2;
+        if (t.substr(p[m], s.size()) <= s) l = m;
+        else r = m;
+    }
+    return r;
 }
 
 // Sort cyclic shift of s. Eg if s = abbaba$ then its cyclic shifts will be
