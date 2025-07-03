@@ -12,9 +12,9 @@ int const ALPHABET_SIZE = 256;
 
 vector<int> suffix_array(string s);
 vector<int> sort_cyclic_shifts(const string &s);
-bool substring_search(const string& t, const string& s, const vector<int> &p);
-int substring_lower_bound(const string& t, const string& s, const vector<int> &p);
-int substring_upper_bound(const string& t, const string& s, const vector<int> &p);
+bool substring_search(const string &t, const string &s, const vector<int> &p);
+int substring_lower_bound(const string &t, const string &s, const vector<int> &p);
+int substring_upper_bound(const string &t, const string &s, const vector<int> &p);
 
 // https://codeforces.com/edu/course/2/lesson/2/3/practice/contest/269118/problem/A
 https://codeforces.com/edu/course/2/lesson/2/3/practice/contest/269118/problem/B
@@ -34,7 +34,7 @@ int main() {
     return 0;
 }
 
-bool substring_search(const string& t, const string& s, const vector<int> &p) {
+bool substring_search(const string &t, const string &s, const vector<int> &p) {
     int l = -1, r = p.size(), m;
     while (r - l > 1) {
         m = (l + r) / 2;
@@ -44,7 +44,7 @@ bool substring_search(const string& t, const string& s, const vector<int> &p) {
     return r < p.size() && t.substr(p[r], s.size()) == s;
 }
 
-int substring_lower_bound(const string& t, const string& s, const vector<int> &p) {
+int substring_lower_bound(const string &t, const string &s, const vector<int> &p) {
     int l = -1, r = p.size(), m;
     while (r - l > 1) {
         m = (l + r) / 2;
@@ -54,7 +54,7 @@ int substring_lower_bound(const string& t, const string& s, const vector<int> &p
     return ++l;
 }
 
-int substring_upper_bound(const string& t, const string& s, const vector<int> &p) {
+int substring_upper_bound(const string &t, const string &s, const vector<int> &p) {
     int l = -1, r = p.size(), m;
     while (r - l > 1) {
         m = (l + r) / 2;
