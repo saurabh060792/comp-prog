@@ -73,6 +73,18 @@ vector<int> prefix_function(string s) {
         // (s[i] = s[19] = b) == (s[j] = s[1] = b)
         // So in this case we will break from the while loop and j will
         // be incremented by 1. Hence pi[19] = 2.
+        //
+        // Note that in this while loop j is decreasing and it gets
+        // incremented just once in the if condition below. And in
+        // next iteration j start with the same value as the current
+        // iteration. Hence j can only increase at most n times hence
+        // this while loop will only run at most O(n) times overall.
+        // Hence the complexity of computing the prefix function is
+        // O(n). If we initialize j with i instead of pi[i-] at the
+        // start of the loop then our complexity will become O(n^2)
+        // which happens in the naive implementation of prefix 
+        // function automaton.
+        // https://cp-algorithms.com/string/prefix-function.html#building-an-automaton-according-to-the-prefix-function
         while (j > 0 && s[i] != s[j]) j = pi[j - 1];
 
         // We initialize j with pi[i - 1] that is we want to
