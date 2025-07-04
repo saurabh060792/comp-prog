@@ -11,9 +11,10 @@ def main() :
 	testcase = 1
 	while 1 :
 		genTestCase()
-		run("a<in>out1", True, "Test")
-		run("b<in>out2", True, "Model")
-		# run("java Main <in>out2", False)
+		run("a<in>out1", True, 2,  "Test")
+		run("b<in>out2", True, 2, "Model")
+		# run("java Main <in>out2", False, "Model")
+		# run("python model.py<in>out2", False, "Model")
 
 		f1 = open("out1","r")
 		f2 = open("out2","r")
@@ -33,13 +34,15 @@ def compile():
 	os.system("g++ -o b model.cpp")
 	# os.system("javac Main.java")
 
-def run(cmd, measure_runtime, log_message):
+def run(cmd, measure_runtime, tl, log_message):
 	if measure_runtime:
 		start_time = time.perf_counter()
 		os.system(cmd)
 		end_time = time.perf_counter()
 		elapsed_time = end_time - start_time
 		print(f"Elapsed time for {log_message} : {elapsed_time} seconds")
+		if elapsed_time > tl:
+			exit()
 	else:
 		os.system(cmd)
 
@@ -50,13 +53,38 @@ def write_list(f, a):
 def genTestCase():
 	f = open("in","w")
 
+	generateStringTestCase(f)
+
 	# genPermutationTestCase(f)
 	
 	# genQueryTestCase(f)
 
-	genTreeQueryTestCase(f)
+	# genTreeQueryTestCase(f)
 
 	f.close()
+
+def generateStringTestCase(f):
+	# characters = string.ascii_letters + string.digits
+	# characters = string.ascii_lowercase
+	characters = "ab"
+	n = random.randint(300000, 300000)
+	random_string = ''.join(random.choice(characters) for i in range(n))
+	f.write(random_string + "\n")
+
+	count = 0
+	sum = 0
+	random_string_list = []
+	while sum < 300000:
+		n = random.randint(100, 1000)
+		random_string = ''.join(random.choice(characters) for i in range(n))
+		random_string_list.append(random_string)
+		sum += n
+		count += 1
+		if (sum > 300000) :
+			break
+	write_list(f, [count])
+	for i in range(count):
+		f.write(random_string_list[i] + "\n")
 
 def genPermutationTestCase(f):
 	n = 200000
@@ -91,11 +119,11 @@ def genQueryTestCase(f):
 			write_list(f, [2,l,r,k])
 
 def genTreeQueryTestCase(f):
-	n = 5
-	q = 5
+	n = random.randint(1,100000)
+	q = min(100000, 20000000//n)
 	write_list(f, [n,q])
 	for i in range(n) :
-		f.write(str(random.randint(1,20)) + " ")
+		f.write(str(random.randint(1,1000000000)) + " ")
 	f.write("\n")
 	generateTree(f, n, -1)
 	for i in range(q) :
@@ -108,7 +136,7 @@ def genTreeQueryTestCase(f):
 		else :
 			# Update
 			u = random.randint(1, n)
-			val = random.randint(1,20)
+			val = random.randint(1,1000000000)
 			write_list(f, [2, u, val])
 
 def generateTree(f, n, max_weight):
