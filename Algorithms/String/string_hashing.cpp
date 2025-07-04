@@ -48,22 +48,25 @@ int main() {
         }
     }
     printf("%d\n", num_good_substring);
-
     return 0;
-
 }
 
-void compute_prime_powers() {
+vector<__int128> compute_prime_powers(int n) {
+    vector<__int128> prime_power(n + 1);
     prime_power[0] = 1;
     for (int i = 1; i <= n; i++) prime_power[i] = (prime_power[i - 1] * PRIME_BASE) % HASH_MOD;
+    return prime_power;
 }
 
-void compute_hash(char *s) {
+vector<__int128> compute_hash(const string &s, const vector<__int128> &prime_power) {
+    int n = s.size();
     __int128 temp_hash = 0;
-    for (int i = 0; i < strlen(s); i++) {
+    vector<__int128> hash_value(n + 1);
+    for (int i = 0; i < n; i++) {
         // Assigning a to 0 is not a good idea because then the hashes of the strings
         // a, aa, aaa, aaaa etc will all evaluate to 0.
         temp_hash = (temp_hash + (s[i] - 'a' + 1) * prime_power[i]) % HASH_MOD;
         hash_value[i] = temp_hash;
     }
+    return hash_value;
 }
