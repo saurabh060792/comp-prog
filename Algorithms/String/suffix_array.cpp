@@ -178,7 +178,8 @@ vector<int> sort_cyclic_shifts(const string &s) {
 }
 
 vector<int> suffix_array(string s) {
-    s += "$";
+    // ! is smaller than #, $. So #, $ can be used elsewhere.
+    s += "!";
     vector<int> sorted_shifts = sort_cyclic_shifts(s);
     sorted_shifts.erase(sorted_shifts.begin());
     return sorted_shifts;
