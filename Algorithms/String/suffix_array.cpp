@@ -16,9 +16,12 @@ bool substring_search(const string &t, const string &s, const vector<int> &p);
 int substring_lower_bound(const string &t, const string &s, const vector<int> &p);
 int substring_upper_bound(const string &t, const string &s, const vector<int> &p);
 vector<int> lcp_array(const string &s, const vector<int> &p);
+void build_sparse_table(vector<int> a);
+lli log2_floor(lli i);
 
 // https://codeforces.com/edu/course/2/lesson/2/3/practice/contest/269118/problem/A
 // https://codeforces.com/edu/course/2/lesson/2/3/practice/contest/269118/problem/B
+// https://codeforces.com/edu/course/2/lesson/2/5/practice/contest/269656/problem/C
 // https://youtu.be/dpu0RDXZAH0?si=OMDH4RL5qN0kQ-U3
 int main() {
     ios_base::sync_with_stdio(false);
@@ -32,6 +35,17 @@ int main() {
         cin >> s;
         cout << ((substring_search(t, s, p)) ? "Yes" : "No") << "\n";
     }
+
+    // Lcp Calculation given 2 suffix index
+    int l, r, lcp;
+    lli k;
+    vector<int> rank(n, 0);
+    for (int i = 0; i < n; i++) rank[p[i]] = i;
+    if (rank[a.first] > rank[b.first]) l = rank[b.first], r = rank[a.first] - 1;
+    else l = rank[a.first], r = rank[b.first] - 1;
+    k = log2_floor(r - l + 1);
+    lcp = min(minimum[k][l], minimum[k][r - (1 << k) + 1]);
+    
     return 0;
 }
 
@@ -185,6 +199,7 @@ vector<int> suffix_array(string s) {
     return sorted_shifts;
 }
 
+// https://youtu.be/dpu0RDXZAH0?si=sKVQPGarpLJG4Ml2&t=4333
 vector<int> lcp_array(const string &s, const vector<int> &p) {
     int n = s.size();
     vector<int> rank(n, 0);
@@ -192,15 +207,54 @@ vector<int> lcp_array(const string &s, const vector<int> &p) {
 
     int k = 0;
     vector<int> lcp(n - 1, 0);
+
+    // We will loop from longest to shortest suffix.
     for (int i = 0; i < n; i++) {
         if (rank[i] == n - 1) {
             k = 0;
             continue;
         }
+        // j denotes the next suffix index in the sorted list.
         int j = p[rank[i] + 1];
         while (i + k < n && j + k < n && s[i + k] == s[j + k]) k++;
         lcp[rank[i]] = k;
+
+        // Now we prepare for the next iteration. In the next iteration
+        // we will consider a suffix which is one less than current suffix.
+        // So if lcp if i, j is k, then lcp of i+1 and j+1 will be exactly
+        // k-1.
+        // However in the next iteration we are not comparing i+1 with j+1 
+        // but we are comparing i+1 with the suffix that is next to it in
+        // the sorted arry but we can jump start the comparison in the while
+        // loop by k-1. Eg
+        // s = aaabab
+        // p
+        // 0  aaabab  <---  i
+        // 1  aabab   <---- j <--- i+1
+        // 4  ab
+        // 2  abab    <---- j+1
+        // 5  b
+        // 3  bab
+        // For first iteration, k (lcp) = 2. So for suffix i+1 (aabab) and
+        // j+1 (abab) lcp will be k-1 (=1) as we are removing the first character
+        // from both string. That means in the next iteration we can jump start
+        // k with 1 when comparing suffix 1 with 4.
         if (k) k--;
     }
     return lcp;
+}
+
+lli log2_floor(lli i) {
+    return i ? __builtin_clzll(1) - __builtin_clzll(i) : -1;
+}
+
+void build_sparse_table(vector<int> a) {
+    int n = a.size();
+    lli k = log2_floor(n);
+    for (int i = 0; i < n; i++) minimum[0][i] = a[i];
+    for (int i = 1; i <= k; i++) {
+        for (int j = 0; j <= n - (1 << i); j++) {
+            minimum[i][j] = min(minimum[i - 1][j], minimum[i - 1][j + (1 << (i - 1))]);
+        }
+    }
 }
