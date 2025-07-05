@@ -8,7 +8,7 @@ typedef pair<int, int> pii;
 
 int const MAX = 1000006;
 
-lli rem_a[MAX], rem_b[MAX], ten_a[MAX], ten_b[MAX];
+lli rem_b[MAX], ten_b[MAX];
 
 int main() {
     lli a, b, rem = 0, n, curr_rem_a = 0, curr_rem_b;
@@ -19,7 +19,7 @@ int main() {
 
     if (n == 1) printf("NO\n");
 
-    ten_a[0] = ten_b[0] = 1;
+    ten_b[0] = 1;
     for (int i = 1; i <= n; i++) ten_b[i] = (ten_b[i - 1] * 10) % b;
     for (int i = n - 1; i >= 0; i--) {
         rem = (rem + ((s[i] - '0') * ten_b[n - i - 1])) % b;
