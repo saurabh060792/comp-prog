@@ -39,4 +39,3 @@ int CRT(int *n, int *a, int n)
 	}
 	return sum % prod;
 }
- 
