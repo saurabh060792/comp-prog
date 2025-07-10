@@ -35,10 +35,11 @@ int main() {
 bool check(int w) {
     int cnt, i = 0, j = 0;
     // Imagine filling up 2d box with width w starting
-    // from (i, j). So lets say we have "cnt" number of
-    // a[i]'s that we have to fill. Then j th row
-    // can have (w-i) and the we can only fill till
-    // a[i] so we will have (a[i] - j)*w cells to fill.
+    // from (i, j), bottom to up. So lets say we have
+    // "cnt" number of a[i]'s that we have to fill.
+    // Then j th (current) row can accomodate (w-i) and 
+    // then we can only fill till a[i] th row so we will
+    // have (a[i] - j) * w cells to fill.
     for (auto c : count_by_strength) {
         cnt = c.second;
         if (cnt > (w - i) + (c.first - j)*w) return false;
