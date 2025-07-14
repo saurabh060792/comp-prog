@@ -14,6 +14,7 @@ lli nb, ns, nc, pb, ps, pc, ruble, ib, is, ic;
 bool check(lli h);
 lli num_hamburger(lli n, lli i);
 
+// https://codeforces.com/problemset/problem/371/C
 int main() {
     lli l, r, m;
     cin >> s;
@@ -24,7 +25,10 @@ int main() {
         if (s[i] == 'C') ic++;
     }
 
-  
+    // Here we have to find maximum. So we start l where
+    // solution is definitly possible and r where solution
+    // is not possible. Then we binary search to find the
+    // maximum solution.
     l = 0, r = MAX;
     while (r - l > 1) {
         m = (l + r) / 2;
