@@ -49,7 +49,7 @@ bool check(int w) {
                 cnt -= (w - i);
                 i = cnt % w;
                 j++;
-                j += ceil(cnt / w);
+                j += (cnt / w);
             }
         }
     }
