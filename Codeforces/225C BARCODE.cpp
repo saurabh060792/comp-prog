@@ -13,7 +13,7 @@ int cost_w[MAX], cost_b[MAX], dp_w[MAX], dp_b[MAX];
 string s[MAX];
 
 int main() {
-    int n, m , x, y, cost, min_cost;
+    int n, m , x, y;
     scanf("%d%d%d%d", &n, &m, &x, &y);
     for (int i = 0; i < n; i++) cin >> s[i];
     for (int i = 0; i < n; i++) {
