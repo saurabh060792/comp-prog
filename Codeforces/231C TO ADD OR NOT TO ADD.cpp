@@ -18,7 +18,7 @@ int main() {
     sort(a, a + n);
 
     i = j = op = 0;
-    while (i < n) {
+    while (i < n && j < n) {
         while (op <= k && j < n) {
             op += (j + 1 < n) * (a[j + 1] - a[j]) * (j - i + 1);
             j++;
