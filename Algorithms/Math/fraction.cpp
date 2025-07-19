@@ -6,67 +6,60 @@ using namespace std;
 
 typedef long long int lli;
 
-class fraction
-{
-	public:
-	lli n, d;
+struct fraction {
+    lli n, d;
 
-	//constructors
-	fraction(lli n, lli d):n(n), d(d){}
-	fraction():n(1), d(1){}
-	fraction(lli n):n(n), d(1){}
+    fraction(lli a, lli b): n(a), d(b) {}
+    fraction(): n(1), d(1) {}
+    fraction(lli a): n(a), d(1) {}
+    fraction(const fraction& b) = default;
 
-	//operators
-	fraction operator+(const fraction& b)
-	{
-		fraction f(n*b.d+b.n*d, d*b.d);
-		f.normalize();
-		return f;
-	}
+    fraction& operator=(const fraction& b) {
+        if (this == &b) return *this;
+        n = b.n;
+        d = b.d;
+        return *this;
+    }
 
-	fraction operator-(const fraction& b)
-	{
-		fraction f(n*b.d-b.n*d, d*b.d);
-		f.normalize();
-		return f;
-	}
+    fraction operator+(const fraction& b) {
+        fraction f(n * b.d + b.n * d, d * b.d);
+        f.normalize();
+        return f;
+    }
 
-	fraction operator*(const fraction& b)
-	{
-		fraction f(n*b.n, d*b.d);
-		f.normalize();
-		return f;
-	}
-	
-	fraction operator/(const fraction& b)
-	{
-		fraction f(n*b.d, d*b.n);
-		f.normalize();
-		return f;
-	}
-	
+    fraction operator-(const fraction& b) {
+        fraction f(n * b.d - b.n * d, d * b.d);
+        f.normalize();
+        return f;
+    }
 
-	void normalize()
-	{
-		lli g = this->gcd(n, d);
-		n /= g;
-		d /=g;
-	}
-	
-	lli gcd(lli a, lli b)
-	{
-		if(a > b) return gcd(b, a);
-		if(a < 0) return gcd(-a, b);	
-		if(a == 0) return b;
-		else return gcd(b%a, a);
-	}
+    fraction operator*(const fraction& b) {
+        fraction f(n * b.n, d * b.d);
+        f.normalize();
+        return f;
+    }
 
-	void printFraction()
-	{
-		if(d < 0) {
-			d*=-1;
-			n*=-1;
-		}
-		printf("%lld/%lld", n, d);
-	}
+    fraction operator/(const fraction& b) {
+        fraction f(n * b.d, d * b.n);
+        f.normalize();
+        return f;
+    }
+
+    bool operator<(const fraction& b) const {
+        return n * b.d < b.n * d;
+    }
+
+    void normalize() {
+        lli g = __gcd(n, d);
+        n /= g;
+        d /= g;
+    }
+
+    void printFraction() {
+        if (d < 0) {
+            d *= -1;
+            n *= -1;
+        }
+        printf("%lld/%lld", n, d);
+    }
 };
