@@ -5,85 +5,60 @@
 
 using namespace std;
 
-typedef long long int lli;
-typedef pair<lli, lli> pll;
-
-int const ALPHABET_SIZE = 256;
-
-vector<int> suffix_array(string s);
-vector<int> sort_cyclic_shifts(string s);
-bool substring_search(string t, string s, vector<int> p);
-bool less(string t, string s, int id);
+vector<int> findConfirmedSignal(vector<int>& a1, vector<int>& a2, int d);
+void printVector(vector<int> a);
 
 int main() {
-    int q;
-    string s, t;
-    cin >> t;
-    vector<int> p = suffix_array(t);
-    scanf("%d", &q);
-    while (q--) {
-        cin>>s;
-        cout<<((substring_search(t, s, p)) ? "Yes" : "No")<<"\n";
+    vector<int> a1 = {1, 2, 0, 4, 0};
+    vector<int> a2 = {0, 0, 1, 0, 4};
+    int d = 3;
+    vector<int> ans = findConfirmedSignal(a1, a2, d);
+    for (const auto& element : ans) {
+        cout << element << " ";
     }
+    std::cout << "\n";
     return 0;
 }
 
-bool substring_search(string t, string s, vector<int> p) {
-    // for (auto i : p) printf("%d ", i);
-    // printf("\n");
-    int l = 0, r = p.size() - 1, m;
-    while (r - l > 1) {
-        m = (l + r)/2;
-        string temp = t.substr(p[m], s.size());
-        // cout<<temp<<endl;
-        if (temp < s) l = m;
-        else r = m;
-        // printf("l: %d r: %d\n", l, r);
+vector<int> findConfirmedSignal(vector<int>& a1, vector<int>& a2, int d) {
+    int i;
+    int n1 = a1.size();
+    int n2 = a2.size();
+    if (n1 > n2) {
+        swap(a1, a2);
+        swap(n1, n2);
     }
-    return t.substr(p[r], s.size()) == s;
+
+    vector<int> ans, h1(1000, -1), h2(1000, -1);
+
+    // Initialize sliding window.
+    for (i = 0; i < min(n1, d); i++) {
+        if (a1[i] > 0) h1[a1[i]] = i;
+        if (a2[i] > 0) h2[a2[i]] = i;
+    }
+
+    // Base
+    for (i = 0; i < d; i++) {
+        if (a2[i] > 0 && h1[a2[i]] >= 0) ans.push_back(a2[i]);
+    }
+
+    for (i = d; i < min(n1+d, n2); i++) {
+        // Find
+        if (a1[i] > 0 && h2[a1[i]] >= 0) ans.push_back(a1[i]);
+        if (a2[i] > 0 && h1[a2[i]] >= 0) ans.push_back(a2[i]);
+
+        // Delete
+        h1[a1[i-d]] = -1;
+        h2[a2[i-d]] = -1;
+
+        // Insert
+        if (a1[i] > 0) h1[a1[i]] = i;
+        if (a2[i] > 0) h1[a2[i]] = i;
+    }
+    return ans;
 }
 
-vector<int> sort_cyclic_shifts(string s) {
-    int n = s.size();
-    vector<int> p(n), c(n), cnt(max(ALPHABET_SIZE, n), 0);
-    for (int i = 0; i < n; i++) cnt[s[i]]++;
-    for (int i = 1; i < ALPHABET_SIZE; i++) cnt[i] += cnt[i - 1];
-    for (int i = 0; i < n; i++) p[--cnt[s[i]]] = i;
-    c[p[0]] = 0;
-    int classes = 1;
-    for (int i = 1; i < n; i++) {
-        if (s[p[i]] != s[p[i - 1]])
-            classes++;
-        c[p[i]] = classes - 1;
-    }
-
-    vector<int> pn(n), cn(n);
-    for (int k = 0; (1 << k) < n; k++) {
-        for (int i = 0; i < n; i++) {
-            pn[i] = p[i] - (1 << k);
-            if (pn[i] < 0) pn[i] += n;
-        }
-        fill(cnt.begin(), cnt.begin() + classes, 0);
-        for (int i = 0; i < n; i++) cnt[c[pn[i]]]++;
-        for (int i = 1; i < classes; i++) cnt[i] += cnt[i - 1];
-        for (int i = n - 1; i >= 0; i--) p[--cnt[c[pn[i]]]] = pn[i];
-        cn[p[0]] = 0;
-        classes = 1;
-        for (int i = 1; i < n; i++) {
-            pair<int, int> cur = {c[p[i]], c[(p[i] + (1 << k)) % n]};
-            pair<int, int> prev = {c[p[i - 1]], c[(p[i - 1] + (1 << k)) % n]};
-            if (cur != prev) classes++;
-            cn[p[i]] = classes - 1;
-        }
-        c.swap(cn);
-        if (classes == n) break;
-    }
-    return p;
-}
-
-vector<int> suffix_array(string s) {
-    s += "$";
-    vector<int> sorted_shifts = sort_cyclic_shifts(s);
-    sorted_shifts.erase(sorted_shifts.begin());
-    return sorted_shifts;
+void printVector(vector<int> a) {
+    for (int i = 0; i < 10; i++) cout<<a[i]<<" ";
+    cout<<endl;
 }
