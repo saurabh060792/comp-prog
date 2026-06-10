@@ -9,8 +9,8 @@ vector<int> findConfirmedSignal(vector<int>& a1, vector<int>& a2, int d);
 void printVector(vector<int> a);
 
 int main() {
-    vector<int> a1 = {1, 2, 0, 4, 0};
-    vector<int> a2 = {0, 0, 1, 0, 4};
+    vector<int> a1 = {1, 2, 3, 4, 5};
+    vector<int> a2 = {0, 0, 1, 5, 0 , 4 , 6, 3, 1, 4, 5};
     int d = 3;
     vector<int> ans = findConfirmedSignal(a1, a2, d);
     for (const auto& element : ans) {
