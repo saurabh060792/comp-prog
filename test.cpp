@@ -44,7 +44,7 @@ vector<int> findConfirmedSignal(vector<int>& a1, vector<int>& a2, int d) {
 
     for (i = d; i < min(n1+d, n2); i++) {
         // Find
-        if (a1[i] > 0 && h2[a1[i]] >= 0) ans.push_back(a1[i]);
+        if (i < n1 && a1[i] > 0 && h2[a1[i]] >= 0) ans.push_back(a1[i]);
         if (a2[i] > 0 && h1[a2[i]] >= 0) ans.push_back(a2[i]);
 
         // Delete
@@ -52,7 +52,7 @@ vector<int> findConfirmedSignal(vector<int>& a1, vector<int>& a2, int d) {
         h2[a2[i-d]] = -1;
 
         // Insert
-        if (a1[i] > 0) h1[a1[i]] = i;
+        if (i < n1 && a1[i] > 0) h1[a1[i]] = i;
         if (a2[i] > 0) h1[a2[i]] = i;
     }
     return ans;
